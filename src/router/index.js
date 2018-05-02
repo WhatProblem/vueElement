@@ -17,47 +17,74 @@ const routeConfig = [
     component: () => import('@/views/login.vue')
   },
   {
-    path: '/',
+    path: '',
     redirect: '/home',
     name: 'main',
-    title: 'main部分',
+    meta: {
+      title: '首页',
+      icon: 'el-icon-info'
+    },
     component: main,
     children: [
-      { path: '/home', name: 'home', meta: { title: '首页' }, component: () => import('@/views/home/home.vue')}
+      { path: 'home', name: 'home', meta: { title: '首页', icon: 'el-icon-info' }, component: () => import('@/views/home/home.vue')}
     ]
   },
   {
     path: '/i18n',
     name: 'i18n',
-    title: '语言切换',
+    meta: {
+      title: '语言切换',
+      icon: 'el-icon-refresh'
+    },
     component: main,
     children: [
-      { path: 'i18n_index', name: 'i18n_index', meta: { title: '语言切换' }, component: () => import('@/views/i18n/i18n.vue')}
+      { path: 'i18n_index', name: 'i18n_index', meta: { title: '语言切换', icon: 'el-icon-refresh' }, component: () => import('@/views/i18n/i18n.vue')}
     ]
   },
   {
     path: '/documentation',
     name: 'documentation',
-    title: '参考文档',
+    meta: {
+      title: '参考文档',
+      icon: 'el-icon-document'
+    },
     component: main,
     children: [
-      { path: 'documentation_index', name: 'documentation_index', meta: { title: '参考文档' }, component: () => import('@/views/documentation/documentation.vue')}
+      { path: 'documentation_index', name: 'documentation_index', meta: { title: '参考文档', icon: 'el-icon-document' }, component: () => import('@/views/documentation/documentation.vue')}
+    ]
+  },
+  {
+    path: '/zip',
+    name: 'zip',
+    meta: {
+      title: '压缩文件',
+      icon: 'el-icon-download'
+    },
+    component: main,
+    children: [
+      { path: 'zip_index', name: 'zip_index', meta: { title: '压缩文件', icon: 'el-icon-download' }, component: () => import('@/views/zip/zip.vue')}
     ]
   },
   {
     path: '/form',
     name: 'form',
-    title: '表单',
+    meta: {
+      title: '表单',
+      icon: 'el-icon-tickets'
+    },
     component: main,
     children: [
-      { path: 'createForm', name: 'createForm', meta: { title: '表单创建' }, component: () => import('@/views/form/createForm/createForm.vue')},
-      { path: 'editForm', name: 'editForm', meta: { title: '表单编辑' }, component: () =>import('@/views/form/editForm/editForm.vue')}
+      { path: 'createForm', name: 'createForm', meta: { title: '表单创建', icon: 'el-icon-tickets' }, component: () => import('@/views/form/createForm/createForm.vue')},
+      { path: 'editForm', name: 'editForm', meta: { title: '表单编辑', icon: 'el-icon-tickets' }, component: () =>import('@/views/form/editForm/editForm.vue')}
     ]
   },
   {
     path: '/excel',
     name: 'excel',
-    title: 'Excel表格',
+    meta: {
+      title: 'Excel表格',
+      icon: 'el-icon-edit'
+    },
     component: main,
     children: [
       { path: 'exportExcel', name: 'exportExcel', meta: { title: '表格导出' }, component: () => import('@/views/excel/exportExcel/exportExcel.vue')},
@@ -66,40 +93,37 @@ const routeConfig = [
     ]
   },
   {
-    path: '/zip',
-    name: 'zip',
-    title: '参考文档',
-    component: main,
-    children: [
-      { path: 'zip_index', name: 'zip_index', meta: { title: '压缩文件' }, component: () => import('@/views/zip/zip.vue')}
-    ]
-  },
-  {
     path: '/errorPages',
     name: 'errorPages',
-    title: '错误导航',
+    meta: {
+      title: '错误导航',
+      icon: 'el-icon-error'
+    },
     component: main,
     children: [
-      { path: '401', name: 'error401', meta: { title: '401报错' }, component: () => import('@/views/errorPages/401.vue')},
-      { path: '404', name: 'error404', meta: { title: '404报错' }, component: () => import('@/views/errorPages/404.vue')}
+      { path: '401', name: 'error401', meta: { title: '401报错', icon: 'el-icon-error' }, component: () => import('@/views/errorPages/401.vue')},
+      { path: '404', name: 'error404', meta: { title: '404报错', icon: 'el-icon-error' }, component: () => import('@/views/errorPages/404.vue')}
     ]
   },
   {
     path: '/components',
     name: 'component',
-    title: '组件',
+    meta: {
+      title: '组件',
+      icon: 'el-icon-menu'
+    },
     component: main,
     children: [
-      { path: 'markdown', name: 'markdown', meta: { title: 'Markdown' }, component: () => import('@/views/components/markdown.vue')},
-      { path: 'jsonEditor', name: 'jsonEditor', meta: { title: 'jsonEditor' }, component: () => import('@/views/components/jsonEditor.vue')},
-      { path: 'splitPane', name: 'splitPane', meta: { title: 'splitPane' }, component: () => import('@/views/components/splitPane.vue')},
+      { path: 'markdown', name: 'markdown', meta: { title: 'Markdown', icon: 'el-icon-menu' }, component: () => import('@/views/components/markdown.vue')},
+      { path: 'jsonEditor', name: 'jsonEditor', meta: { title: 'jsonEditor', icon: 'el-icon-menu' }, component: () => import('@/views/components/jsonEditor.vue')},
+      { path: 'splitPane', name: 'splitPane', meta: { title: 'splitPane', icon: 'el-icon-menu' }, component: () => import('@/views/components/splitPane.vue')},
       {
         path: 'charts',
         name: 'charts',
-        meta: { title: 'charts' },
+        meta: { title: 'charts', icon: 'el-icon-picture-outline' },
         component: charts,
         children: [
-          { path: 'chartOption', name: 'chartOption', meta: { title: 'chartOption' }, component: () =>import('@/views/components/charts/chartOption.vue')}
+          { path: 'chartOption', name: 'chartOption', meta: { title: 'chartOption', icon: 'el-icon-picture-outline' }, component: () =>import('@/views/components/charts/chartOption.vue')}
         ]
       }
     ]
@@ -111,6 +135,7 @@ const router = new Router({
 })
 
 export default router
+export { routeConfig }
 
 router.beforeEach((to, from, next) => {
   NProgress.start();

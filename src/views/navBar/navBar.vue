@@ -55,11 +55,14 @@
       return {
         dynamicTags: ['标签一', '标签二', '标签三'],
         inputVisible: false,
-        inputValue: ''
+        inputValue: '',
+        breadCrumbList: []
       }
     },
     mounted() {
-
+      console.log(this.$route)
+      console.log(this.$router)
+      console.log('88888888888888888888888888888')
     },
     methods: {
       handleClose(tag) {
@@ -72,10 +75,21 @@
         }
         this.inputVisible = false;
         this.inputValue = '';
+      },
+      /**@function
+       * @description:面包屑展示部分
+      */
+      breadCrumbMatch(value) {
+        
+      }
+    },
+    watch: {
+      $route () {
+        console.log(this.$route)
+        console.log(this.$router)
       }
     }
   }
-
 </script>
 <style lang="scss" scoped>
   .el-row {
