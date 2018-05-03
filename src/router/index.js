@@ -19,7 +19,7 @@ const routeConfig = [
   {
     path: '',
     redirect: '/home',
-    name: 'main',
+    // name: 'main',
     meta: {
       title: '首页',
       icon: 'el-icon-info'
@@ -31,7 +31,7 @@ const routeConfig = [
   },
   {
     path: '/i18n',
-    name: 'i18n',
+    // name: 'i18n',
     meta: {
       title: '语言切换',
       icon: 'el-icon-refresh'
@@ -43,7 +43,7 @@ const routeConfig = [
   },
   {
     path: '/documentation',
-    name: 'documentation',
+    // name: 'documentation',
     meta: {
       title: '参考文档',
       icon: 'el-icon-document'
@@ -55,7 +55,7 @@ const routeConfig = [
   },
   {
     path: '/zip',
-    name: 'zip',
+    // name: 'zip',
     meta: {
       title: '压缩文件',
       icon: 'el-icon-download'
@@ -107,6 +107,7 @@ const routeConfig = [
   },
   {
     path: '/components',
+    redirect: '/components/charts/chartOptionTwo',
     name: 'component',
     meta: {
       title: '组件',
@@ -119,11 +120,13 @@ const routeConfig = [
       { path: 'splitPane', name: 'splitPane', meta: { title: 'splitPane', icon: 'el-icon-menu' }, component: () => import('@/views/components/splitPane.vue')},
       {
         path: 'charts',
+        redirect: '/components/charts/chartOptionTwo',
         name: 'charts',
         meta: { title: 'charts', icon: 'el-icon-picture-outline' },
         component: charts,
         children: [
-          { path: 'chartOption', name: 'chartOption', meta: { title: 'chartOption', icon: 'el-icon-picture-outline' }, component: () =>import('@/views/components/charts/chartOption.vue')}
+          { path: 'chartOptionOne', name: 'chartOptionOne', meta: { title: '图表一', icon: 'el-icon-picture-outline' }, component: () =>import('@/views/components/charts/chartOptionOne.vue')},
+          { path: 'chartOptionTwo', name: 'chartOptionTwo', meta: { title: '图表二', icon: 'el-icon-picture-outline' }, component: () =>import('@/views/components/charts/chartOptionTwo.vue')}
         ]
       }
     ]

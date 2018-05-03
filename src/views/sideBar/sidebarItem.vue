@@ -16,14 +16,16 @@
           <router-link v-if="!childItem.children" :key="childItem.name" :to="item.path+'/'+childItem.path">
             <el-menu-item :index="item.path+'/'+childItem.path">{{childItem.meta.title}}</el-menu-item>
           </router-link>
-          <el-submenu v-if="childItem.children" v-for="lastChild in childItem.children" :index="lastChild.name||lastChild.path" :key="lastChild.name">
+          <el-submenu v-if="childItem.children" :index="childItem.name||childItem.path">
             <template slot="title">
               <i :class="childItem.meta.icon"></i>
               <span>{{childItem.name}}</span>
             </template>
-            <router-link :to="item.path+'/'+childItem.path+'/'+lastChild.path">
-              <el-menu-item :index="item.path+'/'+childItem.path+'/'+lastChild.path">{{lastChild.meta.title}}</el-menu-item>
-            </router-link>
+            <template v-for="lastChild in childItem.children">
+              <router-link :to="item.path+'/'+childItem.path+'/'+lastChild.path">
+                <el-menu-item :index="item.path+'/'+childItem.path+'/'+lastChild.path">{{lastChild.meta.title}}</el-menu-item>
+              </router-link>
+            </template>
           </el-submenu>
         </template>
       </el-submenu>

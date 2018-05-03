@@ -20,21 +20,6 @@
       };
     },
     methods: {
-      changeRouter(objName) {
-        this.$router.push({
-          name: objName
-        })
-      },
-      changeRouter2() {
-        this.$router.push({
-          name: 'chartOption'
-        })
-      },
-      backHome() {
-        this.$router.push({
-          name: 'home'
-        })
-      },
       handleOpen(key, keyPath) {
         // console.log(key, keyPath);
       },
@@ -62,5 +47,10 @@
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
     min-height: 400px;
+  }
+  .navbar{
+    width: 200px;
+    height: 100%;
+    background: #304156;
   }
 </style>
