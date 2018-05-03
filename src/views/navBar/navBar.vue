@@ -9,10 +9,10 @@
       <el-col :span="6">
         <div class="grid-content bg-purple">
           <el-breadcrumb separator="/">
-            <el-breadcrumb-item :to="{ path: '/' }">首页</el-breadcrumb-item>
-            <el-breadcrumb-item><a href="/">活动管理</a></el-breadcrumb-item>
-            <el-breadcrumb-item>活动列表</el-breadcrumb-item>
-            <el-breadcrumb-item>活动详情</el-breadcrumb-item>
+            <el-breadcrumb-item v-for="item in breadCrumbList" :key="item.path">
+              <router-link v-if="!item.noLink" :to="{path: item.path}">{{item.meta.title}}</router-link>
+              <span v-if="item.noLink">{{item.meta.title}}</span>
+            </el-breadcrumb-item>
           </el-breadcrumb>
         </div>
       </el-col>
@@ -25,7 +25,7 @@
         <div class="grid-content bg-purple">
           <el-dropdown>
             <span class="el-dropdown-link">
-              admin<i class="el-icon-arrow-down el-icon--right"></i>
+            admin<i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
               <el-dropdown-item>个人信息</el-dropdown-item>
@@ -37,59 +37,99 @@
       </el-col>
       <el-col :span="24" class="tags">
         <div class="grid-content bg-purple-dark">
-          <el-tag :key="tag" v-for="tag in dynamicTags" closable :disable-transitions="false" @close="handleClose(tag)">
-            {{tag}}
+          <el-tag :key="tag.path" v-for="(tag, index) in tagsList" closable :disable-transitions="false" @close="handleClose(tag, index)"
+            :class="currentTag == tag.path ? 'tagsBg' : ''">
+            <router-link :to="tag.path">{{tag.title}}</router-link>
           </el-tag>
-          <el-input class="input-new-tag" v-if="inputVisible" v-model="inputValue" ref="saveTagInput" size="small" @keyup.enter.native="handleInputConfirm"
-            @blur="handleInputConfirm">
-          </el-input>
         </div>
       </el-col>
     </el-row>
   </div>
 </template>
 <script>
+  import { mapMutations, mapState } from "vuex";
   export default {
-    name: 'navbar',
+    name: "navbar",
     data() {
       return {
-        dynamicTags: ['标签一', '标签二', '标签三'],
         inputVisible: false,
-        inputValue: '',
-        breadCrumbList: []
-      }
+        inputValue: "",
+        breadCrumbList: null,
+        currentTag: null
+      };
     },
     mounted() {
-      console.log(this.$route)
-      console.log(this.$router)
-      console.log('88888888888888888888888888888')
+      this.breadCrumbMatch();
+      this.addTagsViews();
     },
     methods: {
-      handleClose(tag) {
-        this.dynamicTags.splice(this.dynamicTags.indexOf(tag), 1);
-      },
-      handleInputConfirm() {
-        let inputValue = this.inputValue;
-        if (inputValue) {
-          this.dynamicTags.push(inputValue);
-        }
-        this.inputVisible = false;
-        this.inputValue = '';
+      handleClose(tag, i) {
+        this.$store.dispatch('deleTagsView', i)
       },
       /**@function
        * @description:面包屑展示部分
       */
-      breadCrumbMatch(value) {
-        
+      breadCrumbMatch() {
+        let matched = this.$route.matched;
+        // console.log(matched);
+        let breadArr = [{ path: "/", meta: { title: "首页" } }];
+        if (matched["length"] === 2 && matched[0]["path"] !== "" && matched[0]["name"] === undefined) {
+          breadArr = breadArr.concat({
+            path: matched[1]["path"],
+            meta: {title: matched[1]["meta"]['title']},
+            noLink: true
+          })
+        } else if (matched["length"] === 2 && matched[0]["path"] !== "" && matched[0]["name"] !== undefined) {
+          breadArr = breadArr.concat({
+            path: matched[0]["path"],
+            meta: {title: matched[0]["meta"]['title']},
+            noLink: true
+          }).concat({
+            path: matched[1]["path"],
+            meta: {title: matched[1]["meta"]['title']},
+            noLink: true
+          })
+        } else if (matched["length"] === 3) {
+          breadArr = breadArr.concat({
+            path: matched[0]["path"],
+            meta: {title: matched[0]["meta"]['title']},
+            noLink: false
+          }).concat({
+            path: matched[1]["path"],
+            meta: {title: matched[1]["meta"]['title']},
+            noLink: false
+          }).concat({
+            path: matched[2]["path"],
+            meta: {title: matched[2]["meta"]['title']},
+            noLink: false
+          })
+        } else {
+          breadArr = breadArr
+        }
+        this.breadCrumbList = breadArr;
+      },
+      /**@function
+       * @description: 添加tags
+      */
+      addTagsViews() {
+        let views = {
+          path: this.$route.path,
+          title: this.$route.meta.title
+        }
+        this.$store.dispatch('addTagsView', views);
       }
     },
+    computed: {
+      ...mapState(['tagsList'])
+    },
     watch: {
-      $route () {
-        console.log(this.$route)
-        console.log(this.$router)
+      $route() {
+        this.breadCrumbMatch();
+        this.addTagsViews()
       }
     }
   }
+
 </script>
 <style lang="scss" scoped>
   .el-row {
@@ -111,6 +151,7 @@
   .el-dropdown {
     cursor: pointer;
   }
+  
   .tags {
     height: 45px;
     line-height: 45px;

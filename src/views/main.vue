@@ -1,7 +1,7 @@
 <template>
   <div class="main">
     <el-container>
-      <el-aside width="200px">
+      <el-aside width="201px">
         <side-bar></side-bar>
       </el-aside>
       <el-container>
@@ -51,9 +51,7 @@
     height: 100%;
   }
   .el-aside {
-    /*width: 100%;*/
     height: 100%;
-    background: #304156;
   }
   .el-main {
     margin-top: 85px;

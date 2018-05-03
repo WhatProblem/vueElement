@@ -1,11 +1,11 @@
 <template>
-  <div class="chartOption">
-    chartOption
+  <div class="chartOptionOne">
+    chartOptionOne
   </div>
 </template>
 <script>
   export default {
-    name: 'chartOption',
+    name: 'chartOptionOne',
     data () {
       return {
         
