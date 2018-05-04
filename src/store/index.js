@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import Cookies from 'js-cookie'
 import { routeConfig } from '../router'
+import { cleanUserInfo } from '../utils/authenticate'
 
 Vue.use(Vuex)
 
@@ -45,14 +47,20 @@ const store = new Vuex.Store({
       } else {
         state.tagsList.splice(index, 1);
       }
+    },
+    logOutRefresh(state, personInfo) {
+      cleanUserInfo(personInfo);
     }
   },
   actions: {
     addTagsView({ commit }, payload) {
-      commit('getTagList', payload)
+      commit('getTagList', payload);
     },
     deleTagsView({ commit }, index) {
-      commit('delTagsView', index)
+      commit('delTagsView', index);
+    },
+    logOut({ commit }, payload) {
+      commit('logOutRefresh', payload);
     }
   }
 })

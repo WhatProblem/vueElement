@@ -147,7 +147,6 @@ router.beforeEach((to, from, next) => {
       name: 'home'
     });
   } else if ((!Cookies.get('user') || !Cookies.get('password')) && to.name !== 'login') {
-    console.log(123456)
     next({
       name: 'login'
     });

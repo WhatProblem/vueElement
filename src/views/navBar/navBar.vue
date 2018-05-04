@@ -25,20 +25,20 @@
         <div class="grid-content bg-purple">
           <el-dropdown>
             <span class="el-dropdown-link">
-            admin<i class="el-icon-arrow-down el-icon--right"></i>
+              admin
+              <i class="el-icon-arrow-down el-icon--right"></i>
             </span>
             <el-dropdown-menu slot="dropdown">
+              <el-dropdown-item disabled>用户XXX</el-dropdown-item>
               <el-dropdown-item>个人信息</el-dropdown-item>
-              <el-dropdown-item>退出登录</el-dropdown-item>
-              <el-dropdown-item disabled>用户</el-dropdown-item>
+              <el-dropdown-item @click.native="logOut()">退出登录</el-dropdown-item>
             </el-dropdown-menu>
           </el-dropdown>
         </div>
       </el-col>
       <el-col :span="24" class="tags">
         <div class="grid-content bg-purple-dark">
-          <el-tag :key="tag.path" v-for="(tag, index) in tagsList" closable :disable-transitions="false" @close="handleClose(tag, index)"
-            :class="currentTag == tag.path ? 'tagsBg' : ''">
+          <el-tag :key="tag.path" v-for="(tag, index) in tagsList" :closable="tag.path!=='/home'" :disable-transitions="false" @close="handleClose(tag, index)" :class="currentTag == tag.path ? 'tagsBg' : ''">
             <router-link :to="tag.path">{{tag.title}}</router-link>
           </el-tag>
         </div>
@@ -47,114 +47,144 @@
   </div>
 </template>
 <script>
-  import { mapMutations, mapState } from "vuex";
-  export default {
-    name: "navbar",
-    data() {
-      return {
-        inputVisible: false,
-        inputValue: "",
-        breadCrumbList: null,
-        currentTag: null
-      };
+import { mapMutations, mapState, mapActions } from "vuex";
+export default {
+  name: "navbar",
+  data() {
+    return {
+      inputVisible: false,
+      inputValue: "",
+      breadCrumbList: null,
+      currentTag: null
+    };
+  },
+  mounted() {
+    this.breadCrumbMatch();
+    this.addTagsViews();
+    this.getCurrentTags();
+  },
+  methods: {
+    handleClose(tag, i) {
+      this.$store.dispatch('deleTagsView', i);
+      if (tag.path === this.currentTag && i !== 0) {
+        this.$router.push(this.tagsList[i - 1]);
+      }
     },
-    mounted() {
+    /**@function
+     * @description:面包屑展示部分
+    */
+    breadCrumbMatch() {
+      let matched = this.$route.matched;
+      // console.log(matched);
+      let breadArr = [{ path: "/", meta: { title: "首页" } }];
+      if (matched["length"] === 2 && matched[0]["path"] !== "" && matched[0]["name"] === undefined) {
+        breadArr = breadArr.concat({
+          path: matched[1]["path"],
+          meta: { title: matched[1]["meta"]['title'] },
+          noLink: true
+        })
+      } else if (matched["length"] === 2 && matched[0]["path"] !== "" && matched[0]["name"] !== undefined) {
+        breadArr = breadArr.concat({
+          path: matched[0]["path"],
+          meta: { title: matched[0]["meta"]['title'] },
+          noLink: true
+        }).concat({
+          path: matched[1]["path"],
+          meta: { title: matched[1]["meta"]['title'] },
+          noLink: true
+        })
+      } else if (matched["length"] === 3) {
+        breadArr = breadArr.concat({
+          path: matched[0]["path"],
+          meta: { title: matched[0]["meta"]['title'] },
+          noLink: false
+        }).concat({
+          path: matched[1]["path"],
+          meta: { title: matched[1]["meta"]['title'] },
+          noLink: false
+        }).concat({
+          path: matched[2]["path"],
+          meta: { title: matched[2]["meta"]['title'] },
+          noLink: false
+        })
+      } else {
+        breadArr = breadArr
+      }
+      this.breadCrumbList = breadArr;
+    },
+    /**@function
+     * @description: 添加tags
+    */
+    addTagsViews() {
+      let views = {
+        path: this.$route.path,
+        title: this.$route.meta.title
+      }
+      this.$store.dispatch('addTagsView', views);
+    },
+    /**@function
+     * @description: 当前tags
+    */
+    getCurrentTags() {
+      this.currentTag = this.$route.path;
+    },
+    /**@function
+     * @description:登出功能
+     */
+    logOut() {
+      let personInfo = {
+        usrename: 'user',
+        password: 'password'
+      };
+      this.$store.dispatch('logOut', personInfo).then(() => {
+        location.reload();
+      })
+    }
+  },
+  computed: {
+    ...mapState(['tagsList'])
+  },
+  watch: {
+    $route() {
       this.breadCrumbMatch();
       this.addTagsViews();
-    },
-    methods: {
-      handleClose(tag, i) {
-        this.$store.dispatch('deleTagsView', i)
-      },
-      /**@function
-       * @description:面包屑展示部分
-      */
-      breadCrumbMatch() {
-        let matched = this.$route.matched;
-        // console.log(matched);
-        let breadArr = [{ path: "/", meta: { title: "首页" } }];
-        if (matched["length"] === 2 && matched[0]["path"] !== "" && matched[0]["name"] === undefined) {
-          breadArr = breadArr.concat({
-            path: matched[1]["path"],
-            meta: {title: matched[1]["meta"]['title']},
-            noLink: true
-          })
-        } else if (matched["length"] === 2 && matched[0]["path"] !== "" && matched[0]["name"] !== undefined) {
-          breadArr = breadArr.concat({
-            path: matched[0]["path"],
-            meta: {title: matched[0]["meta"]['title']},
-            noLink: true
-          }).concat({
-            path: matched[1]["path"],
-            meta: {title: matched[1]["meta"]['title']},
-            noLink: true
-          })
-        } else if (matched["length"] === 3) {
-          breadArr = breadArr.concat({
-            path: matched[0]["path"],
-            meta: {title: matched[0]["meta"]['title']},
-            noLink: false
-          }).concat({
-            path: matched[1]["path"],
-            meta: {title: matched[1]["meta"]['title']},
-            noLink: false
-          }).concat({
-            path: matched[2]["path"],
-            meta: {title: matched[2]["meta"]['title']},
-            noLink: false
-          })
-        } else {
-          breadArr = breadArr
-        }
-        this.breadCrumbList = breadArr;
-      },
-      /**@function
-       * @description: 添加tags
-      */
-      addTagsViews() {
-        let views = {
-          path: this.$route.path,
-          title: this.$route.meta.title
-        }
-        this.$store.dispatch('addTagsView', views);
-      }
-    },
-    computed: {
-      ...mapState(['tagsList'])
-    },
-    watch: {
-      $route() {
-        this.breadCrumbMatch();
-        this.addTagsViews()
-      }
+      this.getCurrentTags();
     }
   }
+}
 
 </script>
 <style lang="scss" scoped>
-  .el-row {
-    position: fixed;
-    width: 100%;
-    height: 60px;
-    line-height: 60px;
-  }
-  
-  .el-col {
-    height: 100%;
-  }
-  
-  .el-breadcrumb {
-    height: 60px;
-    line-height: 60px;
-  }
-  
-  .el-dropdown {
-    cursor: pointer;
-  }
-  
-  .tags {
-    height: 45px;
-    line-height: 45px;
-    margin-left: -12px;
-  }
+.el-row {
+  position: fixed;
+  width: 100%;
+  height: 60px;
+  line-height: 60px;
+}
+
+.el-col {
+  height: 100%;
+}
+
+.el-breadcrumb {
+  height: 60px;
+  line-height: 60px;
+}
+
+.el-dropdown {
+  cursor: pointer;
+}
+
+.tags {
+  height: 45px;
+  line-height: 45px;
+  margin-left: -12px;
+}
+
+.tagsBg {
+  background: #7ef5fa;
+}
+.el-tag {
+  margin-right: 5px;
+}
 </style>
