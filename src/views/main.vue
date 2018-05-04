@@ -51,7 +51,7 @@
     height: 100%;
   }
   .el-aside {
-    height: 100%;
+    /*height: 100%;*/
   }
   .el-main {
     margin-top: 85px;

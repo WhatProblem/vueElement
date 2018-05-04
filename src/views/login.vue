@@ -9,7 +9,7 @@
           <el-input type="password" v-model="ruleForm2.password" auto-complete="off"></el-input>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" @click.native.prevent="submitForm('ruleForm2')" @keyup.prevent="submitForm('ruleForm2')">提交</el-button>
+          <el-button type="primary" @click.native.prevent="submitForm()" @keyup.prevent="submitForm()">提交</el-button>
           <el-button @click="resetForm('ruleForm2')">重置</el-button>
         </el-form-item>
       </el-form>
@@ -17,6 +17,7 @@
   </div>
 </template>
 <script>
+  import { addUserInfo } from '../utils/authenticate'
   import Cookies from 'js-cookie'
   export default {
     data() {
@@ -39,8 +40,8 @@
       };
       return {
         ruleForm2: {
-          username: '',
-          password: ''
+          username: 'admin',
+          password: '123456'
         },
         rules2: {
           username: [
@@ -53,15 +54,16 @@
       };
     },
     methods: {
-      submitForm(formName) {
-        this.$refs[formName].validate((valid) => {
+      submitForm() {
+        this.$refs.ruleForm2.validate((valid) => {
           if (valid) {
-            this.$message('登录成功！');
-            this.$router.push({
-              name: 'home'
-            });
-            Cookies.set('user', this.ruleForm2.username);
-            Cookies.set('password', this.ruleForm2.password);
+            let self = this;
+            addUserInfo(this.ruleForm2).then(() => {
+              self.$message('登录成功！');
+              self.$router.push({
+                path: '/home'
+              });
+            })
           } else {
             console.log('error submit!!');
             return false;
@@ -76,21 +78,21 @@
 
 </script>
 <style lang="scss" scoped>
-.login{
-  width: 100%;
-  height: 100%;
-  background-image: url("../../static/loginBg.jpg");
-  background-repeat: no-repeat;
-  background-size: 100% 100%;
-  .loginContainer{
-    width: 300px;
-    padding: 25px 40px 0 0;
-    border-radius: 2%;
-    background: dodgerblue;
-    position: absolute;
-    top: 40%;
-    right: 5%;
-    transform: translateY(-45%);
+  .login {
+    width: 100%;
+    height: 100%;
+    background-image: url("../../static/loginBg.jpg");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    .loginContainer {
+      width: 300px;
+      padding: 25px 40px 0 0;
+      border-radius: 2%;
+      background: dodgerblue;
+      position: absolute;
+      top: 40%;
+      right: 5%;
+      transform: translateY(-45%);
+    }
   }
-}
 </style>

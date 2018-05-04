@@ -1,6 +1,8 @@
 <template>
   <div class="documentation">
-    documentation
+    <a href="https://github.com/whatproblem/vueElement" target="_blank" class="gitTips">
+      <el-button type="primary" icon="">Github Repository</el-button>
+    </a>
   </div>
 </template>
 <script>
