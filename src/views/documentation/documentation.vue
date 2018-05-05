@@ -1,7 +1,7 @@
 <template>
   <div class="documentation">
     <a href="https://github.com/whatproblem/vueElement" target="_blank" class="gitTips">
-      <el-button type="primary" icon="">Github Repository</el-button>
+      <el-button type="primary" icon="el-icon-ws-Git">Github Repository</el-button>
     </a>
   </div>
 </template>
