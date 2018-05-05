@@ -22,7 +22,7 @@ const routeConfig = [
     // name: 'main',
     meta: {
       title: '首页',
-      icon: 'el-icon-info'
+      icon: 'el-icon-ws-shouye'
     },
     component: main,
     children: [
@@ -34,7 +34,7 @@ const routeConfig = [
     // name: 'i18n',
     meta: {
       title: '语言切换',
-      icon: 'el-icon-refresh'
+      icon: 'el-icon-ws-zhongwenyuyan'
     },
     component: main,
     children: [
@@ -46,7 +46,7 @@ const routeConfig = [
     // name: 'documentation',
     meta: {
       title: '参考文档',
-      icon: 'el-icon-document'
+      icon: 'el-icon-ws-wendang'
     },
     component: main,
     children: [
@@ -58,7 +58,7 @@ const routeConfig = [
     // name: 'zip',
     meta: {
       title: '压缩文件',
-      icon: 'el-icon-download'
+      icon: 'el-icon-ws-geshi_yasuobaozip'
     },
     component: main,
     children: [
@@ -70,12 +70,12 @@ const routeConfig = [
     name: 'form',
     meta: {
       title: '表单',
-      icon: 'el-icon-tickets'
+      icon: 'el-icon-ws-biaodan'
     },
     component: main,
     children: [
-      { path: 'createForm', name: 'createForm', meta: { title: '表单创建', icon: 'el-icon-tickets' }, component: () => import('@/views/form/createForm/createForm.vue')},
-      { path: 'editForm', name: 'editForm', meta: { title: '表单编辑', icon: 'el-icon-tickets' }, component: () =>import('@/views/form/editForm/editForm.vue')}
+      { path: 'createForm', name: 'createForm', meta: { title: '表单创建', icon: 'el-icon-ws-xinjiantianjiabiaodanyemian' }, component: () => import('@/views/form/createForm/createForm.vue')},
+      { path: 'editForm', name: 'editForm', meta: { title: '表单编辑', icon: 'el-icon-ws-biaodan1' }, component: () =>import('@/views/form/editForm/editForm.vue')}
     ]
   },
   {
@@ -83,13 +83,13 @@ const routeConfig = [
     name: 'excel',
     meta: {
       title: 'Excel表格',
-      icon: 'el-icon-edit'
+      icon: 'el-icon-ws-Excel'
     },
     component: main,
     children: [
-      { path: 'exportExcel', name: 'exportExcel', meta: { title: '表格导出' }, component: () => import('@/views/excel/exportExcel/exportExcel.vue')},
-      { path: 'exportSelected', name: 'exportSelected', meta: { title: '表格导出选择' }, component: () =>import('@/views/excel/exportSelected/exportSelected.vue')},
-      { path: 'uploadExcel', name: 'uploadExcel', meta: { title: '表格上传' }, component: () =>import('@/views/excel/uploadExcel/uploadExcel.vue')}
+      { path: 'exportExcel', name: 'exportExcel', meta: { title: '表格导出', icon: 'el-icon-ws-exceldaochu' }, component: () => import('@/views/excel/exportExcel/exportExcel.vue')},
+      { path: 'exportSelected', name: 'exportSelected', meta: { title: '表格导出选择', icon: 'el-icon-ws-exceldaochu1' }, component: () =>import('@/views/excel/exportSelected/exportSelected.vue')},
+      { path: 'uploadExcel', name: 'uploadExcel', meta: { title: '表格上传', icon: 'el-icon-ws-wendangshangchuan' }, component: () =>import('@/views/excel/uploadExcel/uploadExcel.vue')}
     ]
   },
   {
@@ -97,12 +97,12 @@ const routeConfig = [
     name: 'errorPages',
     meta: {
       title: '错误导航',
-      icon: 'el-icon-error'
+      icon: 'el-icon-ws-error'
     },
     component: main,
     children: [
-      { path: '401', name: 'error401', meta: { title: '401报错', icon: 'el-icon-error' }, component: () => import('@/views/errorPages/401.vue')},
-      { path: '404', name: 'error404', meta: { title: '404报错', icon: 'el-icon-error' }, component: () => import('@/views/errorPages/404.vue')}
+      { path: '401', name: 'error401', meta: { title: '401报错', icon: 'el-icon-ws-401' }, component: () => import('@/views/errorPages/401.vue')},
+      { path: '404', name: 'error404', meta: { title: '404报错', icon: 'el-icon-ws-cuowu' }, component: () => import('@/views/errorPages/404.vue')}
     ]
   },
   {
@@ -111,22 +111,22 @@ const routeConfig = [
     name: 'component',
     meta: {
       title: '组件',
-      icon: 'el-icon-menu'
+      icon: 'el-icon-ws-zujian'
     },
     component: main,
     children: [
-      { path: 'markdown', name: 'markdown', meta: { title: 'Markdown', icon: 'el-icon-menu' }, component: () => import('@/views/components/markdown.vue')},
-      { path: 'jsonEditor', name: 'jsonEditor', meta: { title: 'jsonEditor', icon: 'el-icon-menu' }, component: () => import('@/views/components/jsonEditor.vue')},
-      { path: 'splitPane', name: 'splitPane', meta: { title: 'splitPane', icon: 'el-icon-menu' }, component: () => import('@/views/components/splitPane.vue')},
+      { path: 'markdown', name: 'markdown', meta: { title: 'Markdown', icon: 'el-icon-ws-markdown' }, component: () => import('@/views/components/markdown.vue')},
+      { path: 'jsonEditor', name: 'jsonEditor', meta: { title: 'jsonEditor', icon: 'el-icon-ws-json' }, component: () => import('@/views/components/jsonEditor.vue')},
+      { path: 'splitPane', name: 'splitPane', meta: { title: 'splitPane', icon: 'el-icon-ws-panel' }, component: () => import('@/views/components/splitPane.vue')},
       {
         path: 'charts',
         redirect: '/components/charts/chartOptionTwo',
         name: 'charts',
-        meta: { title: 'charts', icon: 'el-icon-picture-outline' },
+        meta: { title: 'charts', icon: 'el-icon-ws-chartpattern' },
         component: charts,
         children: [
-          { path: 'chartOptionOne', name: 'chartOptionOne', meta: { title: '图表一', icon: 'el-icon-picture-outline' }, component: () =>import('@/views/components/charts/chartOptionOne.vue')},
-          { path: 'chartOptionTwo', name: 'chartOptionTwo', meta: { title: '图表二', icon: 'el-icon-picture-outline' }, component: () =>import('@/views/components/charts/chartOptionTwo.vue')}
+          { path: 'chartOptionOne', name: 'chartOptionOne', meta: { title: '图表一', icon: 'el-icon-ws-chart-bar' }, component: () =>import('@/views/components/charts/chartOptionOne.vue')},
+          { path: 'chartOptionTwo', name: 'chartOptionTwo', meta: { title: '图表二', icon: 'el-icon-ws-chart1' }, component: () =>import('@/views/components/charts/chartOptionTwo.vue')}
         ]
       }
     ]
