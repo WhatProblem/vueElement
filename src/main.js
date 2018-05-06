@@ -7,14 +7,15 @@ import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueClipboards from 'vue-clipboards';
-import VueSimplemde from 'vue-simplemde'
+import mavonEditor from 'mavon-editor'
+import 'mavon-editor/dist/css/index.css'
 
 // 自定义图标
 import './theme/icons/iconfont.css'
 
 Vue.use(ElementUI)
 Vue.use(VueClipboards)
-Vue.use(VueSimplemde)
+Vue.use(mavonEditor)
 
 Vue.config.productionTip = false
 
