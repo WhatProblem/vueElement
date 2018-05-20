@@ -25,7 +25,7 @@
       navBar,
       appContent
     },
-    name: 'main',
+    name: 'mains',
     data() {
       return {
 
