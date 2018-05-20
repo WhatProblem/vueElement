@@ -83,14 +83,13 @@
        * @description: 当选择项发生变化时会触发该事件
       */
       handleSelectionChange(val) {
-        console.log(val);
-        // this.toggleSelection(val);
+        // console.log(val);
       },
       /**
        * @description: 当表格的当前行发生变化的时候会触发该事件
        */
       handleCurrentChange(val) {
-        console.log(val);
+        // console.log(val);
         this.$refs.singleTable.setCurrentRow(val);
       },
       /**
@@ -103,7 +102,7 @@
         this.toggleSelection(rows)
       },
       handleEdit(index, row) {
-        // console.log(index, row);
+        console.log(index, row);
       },
       handleDelete(index, row) {
         // console.log(index, row);
