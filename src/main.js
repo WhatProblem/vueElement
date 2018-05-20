@@ -7,17 +7,19 @@ import store from './store'
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import VueClipboards from 'vue-clipboards';
-import mavonEditor from 'mavon-editor'
-import 'mavon-editor/dist/css/index.css'
+import mavonEditor from 'mavon-editor';
+import 'mavon-editor/dist/css/index.css';
+
+import { api } from './api';
 
 // 自定义图标
-import './theme/icons/iconfont.css'
+import './theme/icons/iconfont.css';
 
-Vue.use(ElementUI)
-Vue.use(VueClipboards)
-Vue.use(mavonEditor)
+Vue.use(ElementUI);
+Vue.use(VueClipboards);
+Vue.use(mavonEditor);
 
-Vue.config.productionTip = false
+Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
 new Vue({
