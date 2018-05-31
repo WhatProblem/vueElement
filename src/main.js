@@ -10,6 +10,9 @@ import VueClipboards from 'vue-clipboards';
 import mavonEditor from 'mavon-editor';
 import 'mavon-editor/dist/css/index.css';
 
+// 自定义指令
+import './directives/directive';
+
 import { api } from './api';
 
 // 自定义图标

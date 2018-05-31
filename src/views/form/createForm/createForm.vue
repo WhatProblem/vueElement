@@ -1,45 +1,59 @@
 <template>
   <div class="createForm">
-    <el-table 
-    ref="singleTable"
-    :data="tableData"
-    highlight-current-row
-    @current-change="handleCurrentChange"
-    @selection-change="handleSelectionChange"
-    @row-click="selectRow"
-      style="width: 100%">
-      <el-table-column type="selection" width="55">
-      </el-table-column>
-      <el-table-column label="商品名称" width="180">
-        <template slot-scope="scope">
-          <i class="el-icon-ws-seeuser"></i>
-          <span style="margin-left: 10px">{{ scope.row.testName }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="添加日期" width="180">
-        <template slot-scope="scope">
-          <i class="el-icon-time"></i>
-          <span style="margin-left: 10px">{{ scope.row.date }}</span>
-        </template>
-      </el-table-column>
-      <el-table-column label="单价" width="180">
-        <template slot-scope="scope">
-          <el-popover trigger="hover" placement="top">
-            <p>姓名: {{ scope.row.name }}</p>
-            <p>住址: {{ scope.row.address }}</p>
-            <div slot="reference" class="name-wrapper">
-              <el-tag size="medium">{{ scope.row.name }}</el-tag>
-            </div>
-          </el-popover>
-        </template>
-      </el-table-column>
-      <el-table-column label="操作">
-        <template slot-scope="scope">
-          <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-          <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <el-row>
+      <el-col :span="18">
+        <el-table 
+        ref="singleTable"
+        :data="tableData"
+        highlight-current-row
+        @current-change="handleCurrentChange"
+        @selection-change="handleSelectionChange"
+        @row-click="selectRow"
+          style="width: 100%">
+          <el-table-column type="selection" width="55">
+          </el-table-column>
+          <el-table-column label="商品名称" width="180">
+            <template slot-scope="scope">
+              <i class="el-icon-ws-seeuser"></i>
+              <span style="margin-left: 10px">{{ scope.row.testName }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="添加日期" width="180">
+            <template slot-scope="scope">
+              <i class="el-icon-time"></i>
+              <span style="margin-left: 10px">{{ scope.row.date }}</span>
+            </template>
+          </el-table-column>
+          <el-table-column label="单价" width="180">
+            <template slot-scope="scope">
+              <el-popover trigger="hover" placement="top">
+                <p>姓名: {{ scope.row.name }}</p>
+                <p>住址: {{ scope.row.address }}</p>
+                <div slot="reference" class="name-wrapper">
+                  <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                </div>
+              </el-popover>
+            </template>
+          </el-table-column>
+          <el-table-column label="操作">
+            <template slot-scope="scope">
+              <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
+              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+            </template>
+          </el-table-column>
+        </el-table>
+        <el-row>
+          <el-col :span="3">
+            <el-button @click="getFocus" type="primary">主要按钮</el-button>
+          </el-col>
+          <el-col :span="21">
+            <el-input ref="autoInputFocus" autofocus placeholder="请输入内容" v-model="input5" class="input-with-select">
+              <el-button slot="append" icon="el-icon-search"></el-button>
+            </el-input>
+          </el-col>
+        </el-row>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
@@ -47,6 +61,7 @@
     name: 'createForm',
     data() {
       return {
+        input5: '', // 输入内容
         tableData: [
           {
             testName: '电影',
@@ -79,6 +94,12 @@
 
     },
     methods: {
+      /**
+       * @description: 自动聚焦
+      */
+      getFocus() {
+        this.$refs.autoInputFocus.$el.querySelector('input').focus();
+      },
       /**
        * @description: 当选择项发生变化时会触发该事件
       */
