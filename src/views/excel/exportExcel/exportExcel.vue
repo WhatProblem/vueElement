@@ -1,7 +1,7 @@
 <template>
   <div class="exportExcel">
     <el-table :data="tableDatas" style="width: 100%">
-      <el-table-column prop="date" label="序号" type="index" width="60">
+      <el-table-column prop="no" label="序号" type="index" :index="typeIndex" width="60">
       </el-table-column>
       <el-table-column prop="date" label="日期" width="180">
       </el-table-column>
@@ -13,6 +13,7 @@
     <el-pagination 
     :page-count="2" 
     :page-size="4" 
+    :current-page="page"
     @current-change="curPage" 
     @prev-click="prevPage" 
     @next-click="nextPage" 
@@ -63,6 +64,7 @@ export default {
         }
       ],
       tableDatas: [], // 表格
+      page: 1, // 初始化
     }
   },
   mounted() {
@@ -73,18 +75,26 @@ export default {
       this.tableDatas = this.tableData.slice(0, 4);
     },
     curPage(val) {
+      this.page = val;
       if (val === 1) {
         this.tableDatas = this.tableData.slice(0, 4);
       } else if (val === 2) {
         this.tableDatas = this.tableData.slice(4);
       }
-      this.tableDatas = this.tableData.slice(0, 4);
     },
     prevPage(val) {
-      this.tableDatas = this.tableData.slice(0, 4);
+      if (val === 1) {
+        this.tableDatas = this.tableData.slice(0, 4);
+      }
     },
     nextPage(val) {
-      this.tableDatas = this.tableData.slice(4);
+      if (val === 2) {
+        this.tableDatas = this.tableData.slice(4);
+      }
+    },
+    // 分页排序
+    typeIndex(index) {
+      return index + (this.page - 1) * 4 + 1;
     }
   },
   computed: {
