@@ -2,46 +2,6 @@
   <div class="createForm">
     <el-row>
       <el-col :span="18">
-        <el-table 
-        ref="singleTable"
-        :data="tableData"
-        highlight-current-row
-        @current-change="handleCurrentChange"
-        @selection-change="handleSelectionChange"
-        @row-click="selectRow"
-          style="width: 100%">
-          <el-table-column type="selection" width="55">
-          </el-table-column>
-          <el-table-column label="商品名称" width="180">
-            <template slot-scope="scope">
-              <i class="el-icon-ws-seeuser"></i>
-              <span style="margin-left: 10px">{{ scope.row.testName }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="添加日期" width="180">
-            <template slot-scope="scope">
-              <i class="el-icon-time"></i>
-              <span style="margin-left: 10px">{{ scope.row.date }}</span>
-            </template>
-          </el-table-column>
-          <el-table-column label="单价" width="180">
-            <template slot-scope="scope">
-              <el-popover trigger="hover" placement="top">
-                <p>姓名: {{ scope.row.name }}</p>
-                <p>住址: {{ scope.row.address }}</p>
-                <div slot="reference" class="name-wrapper">
-                  <el-tag size="medium">{{ scope.row.name }}</el-tag>
-                </div>
-              </el-popover>
-            </template>
-          </el-table-column>
-          <el-table-column label="操作">
-            <template slot-scope="scope">
-              <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">修改</el-button>
-              <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">删除</el-button>
-            </template>
-          </el-table-column>
-        </el-table>
         <el-row>
           <el-col :span="3">
             <el-button @click="getFocus" type="primary">主要按钮</el-button>
@@ -54,6 +14,56 @@
         </el-row>
       </el-col>
     </el-row>
+    <el-row>
+      <el-col>
+        <el-container>
+          <el-header>
+            <el-button type="primary" icon="el-icon-plus">添加英雄</el-button>
+            <el-button type="primary">修改英雄<i class="el-icon-edit el-icon--right"></i></el-button>
+          </el-header>
+          <el-container>
+            <el-aside width="200px">Aside</el-aside>
+            <el-main>
+              <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" size="medium">
+                <el-form-item>
+                  <el-col :span="11">
+                    <el-form-item label="角色名称" prop="name">
+                      <el-input v-model="ruleForm.name"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="11">
+                    <el-form-item label="喜欢等级" prop="region">
+                      <el-select v-model="ruleForm.region" placeholder="请选择等级">
+                        <el-option label="0" value="shanghai"></el-option>
+                        <el-option label="1" value="beijing"></el-option>
+                        <el-option label="2" value="shanghai"></el-option>
+                        <el-option label="3" value="beijing"></el-option>
+                      </el-select>
+                    </el-form-item>
+                  </el-col>
+                </el-form-item>
+                <el-form-item>
+                  <el-col :span="11">
+                    <el-form-item label="战斗力" prop="name">
+                      <el-input v-model="ruleForm.name"></el-input>
+                    </el-form-item>
+                  </el-col>
+                  <el-col :span="11">
+                    <el-form-item label="使用场次" prop="name">
+                      <el-input v-model="ruleForm.name"></el-input>
+                    </el-form-item>
+                  </el-col>
+                </el-form-item>
+                <el-form-item>
+                  <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
+                  <el-button @click="resetForm('ruleForm')">重置</el-button>
+                </el-form-item>
+              </el-form>
+            </el-main>
+          </el-container>
+        </el-container>
+      </el-col>
+    </el-row>
   </div>
 </template>
 <script>
@@ -61,33 +71,29 @@
     name: 'createForm',
     data() {
       return {
-        input5: '', // 输入内容
-        tableData: [
-          {
-            testName: '电影',
-            date: '2016-05-02',
-            name: '￥120',
-            address: '上海市普陀区金沙江路 1518 弄'
-          },
-          {
-            testName: '电影',
-            date: '2016-05-04',
-            name: '￥120',
-            address: '上海市普陀区金沙江路 1517 弄'
-          },
-          {
-            testName: '电影',
-            date: '2016-05-01',
-            name: '￥120',
-            address: '上海市普陀区金沙江路 1519 弄'
-          },
-          {
-            testName: '电影',
-            date: '2016-05-03',
-            name: '￥120',
-            address: '上海市普陀区金沙江路 1516 弄'
-          }
-        ]
+        input5: '',
+        ruleForm: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+        },
+        rules: {
+          name: [
+            { required: true, message: '请输入活动名称', trigger: 'blur' },
+            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+          ],
+          region: [
+            { required: true, message: '请选择活动区域', trigger: 'change' }
+          ],
+          date1: [
+            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+          ],
+          date2: [
+            { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+          ],
+        }
       }
     },
     mounted() {
@@ -100,50 +106,65 @@
       getFocus() {
         this.$refs.autoInputFocus.$el.querySelector('input').focus();
       },
-      /**
-       * @description: 当选择项发生变化时会触发该事件
-      */
-      handleSelectionChange(val) {
-        // console.log(val);
+      submitForm(formName) {
+        this.$refs[formName].validate((valid) => {
+          if (valid) {
+            alert('submit!');
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
       },
-      /**
-       * @description: 当表格的当前行发生变化的时候会触发该事件
-       */
-      handleCurrentChange(val) {
-        // console.log(val);
-        this.$refs.singleTable.setCurrentRow(val);
-      },
-      /**
-       * @description:当某一行被点击时会触发该事件
-       * 
-       */
-      selectRow(val) {
-        let rows = [];
-        rows[0] = val;
-        this.toggleSelection(rows)
-      },
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      handleDelete(index, row) {
-        // console.log(index, row);
-      },
-      /**@description: 用于多选表格，切换某一行的选中状态
-       * 
-       */
-      toggleSelection(rows) {
-        if (rows) {
-          rows.forEach(row => {
-            this.$refs.singleTable.toggleRowSelection(row);
-          });
-        } else {
-          this.$refs.singleTable.clearSelection(row);
-        }
-      },
+      resetForm(formName) {
+        this.$refs[formName].resetFields();
+      }
+    },
+    computed: {
+
     }
   }
 
 </script>
 <style lang="scss" scoped>
-
+  .el-header,
+  .el-footer {
+    padding-left: 0;
+    /*background-color: #B3C0D1;*/
+    color: #333;
+    text-align: left;
+    line-height: 60px;
+  }
+  
+  .el-aside {
+    background-color: #D3DCE6;
+    color: #333;
+    text-align: center;
+    line-height: 200px;
+  }
+  
+  .el-main {
+    background-color: #E9EEF3;
+    color: #333;
+    text-align: left;
+    line-height: 160px;
+  }
+  
+  body>.el-container {
+    margin-bottom: 40px;
+  }
+  
+  .el-container:nth-child(5) .el-aside,
+  .el-container:nth-child(6) .el-aside {
+    line-height: 260px;
+  }
+  
+  .el-container:nth-child(7) .el-aside {
+    line-height: 320px;
+  }
+  
+  .el-form-item--medium .el-form-item__content,
+  .el-form-item--medium .el-form-item__label {
+    margin-left: 0;
+  }
 </style>

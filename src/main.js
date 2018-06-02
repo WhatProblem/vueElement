@@ -13,7 +13,7 @@ import 'mavon-editor/dist/css/index.css';
 // 自定义指令
 import './directives/directive';
 
-import { api } from './api';
+import api from './api/api';
 
 // 自定义图标
 import './theme/icons/iconfont.css';
@@ -22,6 +22,7 @@ Vue.use(ElementUI);
 Vue.use(VueClipboards);
 Vue.use(mavonEditor);
 
+Vue.prototype.$wsApi = api;
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */
