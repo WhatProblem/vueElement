@@ -66,16 +66,17 @@ const routeConfig = [
     ]
   },
   {
-    path: '/form',
-    name: 'form',
+    path: '/game',
+    name: 'game',
     meta: {
-      title: '表单',
+      title: '游戏',
       icon: 'el-icon-ws-biaodan'
     },
     component: main,
     children: [
-      { path: 'createForm', name: 'createForm', meta: { title: '表单创建', icon: 'el-icon-ws-xinjiantianjiabiaodanyemian' }, component: () => import('@/views/form/createForm/createForm.vue')},
-      { path: 'editForm', name: 'editForm', meta: { title: '表单编辑', icon: 'el-icon-ws-biaodan1' }, component: () =>import('@/views/form/editForm/editForm.vue')}
+      { path: 'heroCreate', name: 'heroCreate', meta: { title: '英雄创建', icon: 'el-icon-ws-xinjiantianjiabiaodanyemian' }, component: () => import('@/views/form/heroCreate/heroCreate.vue')},
+      { path: 'heroList', name: 'heroList', meta: { title: '英雄列表', icon: 'el-icon-ws-biaodan1' }, component: () =>import('@/views/form/heroList/heroList.vue')},
+      { path: 'heroSort', name: 'heroSort', meta: { title: '英雄分类', icon: 'el-icon-ws-biaodan1' }, component: () =>import('@/views/form/heroSort/heroSort.vue')}
     ]
   },
   {

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import wsInterface from './interface.json';
 // 请求时的拦截
 axios.interceptors.request.use(function (config) {
   // 发送请求之前做一些处理
@@ -51,9 +52,10 @@ function apiAxios(method, url, params, success, failure) {
   if (params) {
     params = filterNull(params)
   }
+  let apiUrl = wsInterface[url]['wsUrl'];
   axios({
     method: method,
-    url: url,
+    url: apiUrl,
     data: method === 'POST' || method === 'PUT' ? params : null,
     params: method === 'GET' || method === 'DELETE' ? params : null,
     baseURL: root,
