@@ -27,36 +27,38 @@
               <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" size="medium">
                 <el-form-item>
                   <el-col :span="11">
-                    <el-form-item label="角色名称" prop="name">
-                      <el-input v-model="ruleForm.name"></el-input>
+                    <el-form-item label="角色名称" prop="gameRole">
+                      <el-input v-model="ruleForm.gameRole"></el-input>
                     </el-form-item>
                   </el-col>
-                  <el-col :span="11">
-                    <el-form-item label="喜欢等级" prop="region">
-                      <el-select v-model="ruleForm.region" placeholder="请选择等级">
-                        <el-option label="0" value="shanghai"></el-option>
-                        <el-option label="1" value="beijing"></el-option>
-                        <el-option label="2" value="shanghai"></el-option>
-                        <el-option label="3" value="beijing"></el-option>
+                  <el-col :span="13">
+                    <el-form-item label="喜欢等级" prop="gameFav">
+                      <el-select v-model="ruleForm.gameFav" placeholder="请选择等级">
+                        <el-option label="0" value="0"></el-option>
+                        <el-option label="1" value="1"></el-option>
+                        <el-option label="2" value="2"></el-option>
+                        <el-option label="3" value="3"></el-option>
                       </el-select>
                     </el-form-item>
                   </el-col>
                 </el-form-item>
                 <el-form-item>
                   <el-col :span="11">
-                    <el-form-item label="战斗力" prop="name">
-                      <el-input v-model="ruleForm.name"></el-input>
+                    <el-form-item label="战斗力" prop="gamePower">
+                      <el-input v-model="ruleForm.gamePower"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="11">
-                    <el-form-item label="使用场次" prop="name">
-                      <el-input v-model="ruleForm.name"></el-input>
+                    <el-form-item label="使用场次" prop="gameTotal">
+                      <el-input v-model="ruleForm.gameTotal"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-form-item>
                 <el-form-item>
-                  <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-                  <el-button @click="resetForm('ruleForm')">重置</el-button>
+                  <el-col :span="12" :offset="8">
+                    <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
+                    <el-button @click="resetForm('ruleForm')">重置</el-button>
+                  </el-col>
                 </el-form-item>
               </el-form>
             </el-main>
@@ -73,25 +75,25 @@
       return {
         input5: '',
         ruleForm: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
+          gameRole: '',
+          gameFav: '',
+          gamePower: '',
+          gameTotal: '',
           delivery: false,
         },
         rules: {
-          name: [
+          gameRole: [
+            { required: true, message: '请输入游戏人物名称', trigger: 'blur' },
+            { min: 1, max: 10, message: '长度在 1 到 10 个字符', trigger: 'blur' }
+          ],
+          gameFav: [
+            { required: true, message: '请选择喜欢程度', trigger: 'change' }
+          ],
+          gamePower: [
+            { required: true, message: '请输入战斗力', trigger: 'blur' },
+          ],
+          gameTotal: [
             { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],
-          region: [
-            { required: true, message: '请选择活动区域', trigger: 'change' }
-          ],
-          date1: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-          ],
-          date2: [
-            { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
           ],
         }
       }
@@ -107,9 +109,22 @@
         this.$refs.autoInputFocus.$el.querySelector('input').focus();
       },
       submitForm(formName) {
+        let self = this;
         this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+            console.log(self.ruleForm);
+            let param = {
+              game_role: self.ruleForm.gameRole,
+              game_fav: self.ruleForm.gameFav,
+              game_total: self.ruleForm.gameTotal,
+              game_power: self.ruleForm.gamePower,
+              user_id: 1
+            };
+            self.$wsApi.post('addGameRole', param, (res) => {
+              if (res) {
+                console.log(res);
+              }
+            })
           } else {
             console.log('error submit!!');
             return false;
