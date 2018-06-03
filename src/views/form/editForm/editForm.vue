@@ -18,7 +18,7 @@
     },
     methods: {
       getData() {
-        this.$wsApi.get('http://localhost:3000/allGameRoleList', { user_id: 1 }, (res) => {
+        this.$wsApi.get('allGameRoleList', { user_id: 1 }, (res) => {
           console.log(res);
         });
       }

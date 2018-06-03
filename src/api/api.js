@@ -1,11 +1,15 @@
 import axios from 'axios';
-
 // 请求时的拦截
 axios.interceptors.request.use(function (config) {
   // 发送请求之前做一些处理
+  config.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8';
+  if (config.method === 'post') {
+    config.params = config.data;
+  }
   return config;
 }, function (error) {
   // 当请求异常时做一些处理
+  loadinginstace.close();
   return Promise.reject(error);
 });
 
@@ -18,7 +22,7 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(error);
 });
 
-const root = 'http://127.0.0.1:9999';
+const root = 'http://localhost:3000';
 
 // 自定义判断元素类型JS
 function toType(obj) {
