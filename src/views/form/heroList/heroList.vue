@@ -4,7 +4,7 @@
       <el-header>
         <el-row>
           <el-button @click="getData" type="primary">获取所有数据</el-button>
-          <el-button type="primary">添加英雄数据</el-button>
+          <el-button type="primary" @click="getTotals">添加英雄数据</el-button>
         </el-row>
       </el-header>
       <el-container>
@@ -70,6 +70,20 @@
       // this.getData();
     },
     methods: {
+      getTotals() {
+        let self = this;
+        let param = {
+          game_fav: '3',
+          user_id: '1',
+          pagesTotal: '10', // 每页总数
+          pagesIndex: '1', // 当前页下标
+        };
+        this.$wsApi.get('getDataAndTotals', param, (res) => {
+          if (res['data']['code'] === 200) {
+            console.log(res);
+          }
+        });
+      },
 
       // 获取所有数据
       getData() {

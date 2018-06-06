@@ -1,27 +1,37 @@
 {
   "allGameRoleList": {
-    "wsUrl": "allGameRoleList",
+    "wsUrl": "game/allGameRoleList",
     "param": "user_id 用户id",
     "content": "游戏模块 查询所有英雄数据"
   },
   "difFavDegree": {
-    "wsUrl": "difFavDegree",
+    "wsUrl": "game/difFavDegree",
     "param": "user_id, game_fav",
     "content": "游戏模块 查询不同喜欢程度英雄数据"
   },
   "addGameRole": {
-    "wsUrl": "addGameRole",
+    "wsUrl": "game/addGameRole",
     "param": "game_role, game_power, game_total, game_fav, user_id",
     "content": "游戏模块 添加一条英雄数据"
   },
   "updateGameRole": {
-    "wsUrl": "updateGameRole",
+    "wsUrl": "game/updateGameRole",
     "param": "game_role, game_power, game_total, game_fav, game_id, user_id",
     "content":"游戏模块 修改一条英雄数据"
   },
   "deleteGameRole": {
-    "wsUrl": "deleteGameRole",
+    "wsUrl": "game/deleteGameRole",
     "param": "game_id, user_id",
     "content": "游戏模块 删除一条英雄数据"
+  },
+  "totalCounts": {
+    "wsUrl": "game/totalCounts",
+    "param": "game_fav, user_id",
+    "content": "游戏模块 查询满足条件的总数"
+  },
+  "getDataAndTotals": {
+    "wsUrl": "game/getDataAndTotals",
+    "param": "game_fav, user_id, pagesTotal, pagesIndex",
+    "content": "游戏模块 分页查询"
   }
 }
