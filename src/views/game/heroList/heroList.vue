@@ -1,6 +1,6 @@
 <template>
-  <div class="editForm">
-    <el-container>
+  <div class="heroList">
+    <!--<el-container>
       <el-header>
         <el-row>
           <el-button @click="getData" type="primary">获取所有数据</el-button>
@@ -48,28 +48,57 @@
           </el-table>
         </el-main>
       </el-container>
+    </el-container>-->
+    <el-container>
+      <el-header>
+        <el-row>
+          <el-button @click="getData" type="primary">获取所有数据</el-button>
+          <el-button type="primary" @click="getTotals">添加英雄数据</el-button>
+        </el-row>
+      </el-header>
+      <el-main>
+        <el-tabs @tab-click="handleTabs" tab-position="left" type="border-card" style="height: 200px;">
+          <el-tab-pane v-for="(item, index) in levelOptions" :label="item.title" :key="item.title">
+            <tab-list v-if="curClick==index" :tabListPops="tabListPops"></tab-list>
+          </el-tab-pane>
+          <!--<el-tab-pane label="常用等级 - 2"><tab-list></tab-list></el-tab-pane>
+          <el-tab-pane label="常用等级 - 3"><tab-list></tab-list></el-tab-pane>
+          <el-tab-pane label="常用等级 - 4"><tab-list></tab-list></el-tab-pane>-->
+        </el-tabs>
+      </el-main>
     </el-container>
   </div>
 </template>
 <script>
+  import tabList from '@/views/game/heroList/tabList/tabList';
   export default {
-    name: 'editForm',
+    components: {
+      tabList
+    },
+    name: 'heroList',
     data() {
       return {
-        options: [
-          { title: '所有数据', id: 0 },
-          { title: '熟练度 - 1级', id: 1 },
-          { title: '熟练度 - 2级', id: 2 },
-          { title: '熟练度 - 3级', id: 3 },
-          { title: '熟练度 - 4级', id: 4 },
+        levelOptions: [
+          { title: '所有数据', level: 0 },
+          { title: '熟练度 - 1级', level: 1 },
+          { title: '熟练度 - 2级', level: 2 },
+          { title: '熟练度 - 3级', level: 3 },
+          { title: '熟练度 - 4级', level: 4 },
         ],
-        tableData: []
+        curClick: '', // 当前点击下标
+        tabListPops: '', // 表格数据
+        tableData: [],
       }
     },
     mounted() {
-      // this.getData();
+      this.getData();
     },
     methods: {
+      // 选中tabs触发
+      handleTabs(tab, event) {
+        console.log(tab);
+        this.curClick = tab.index;
+      },
       getTotals() {
         let self = this;
         let param = {
@@ -90,7 +119,8 @@
         let self = this;
         this.$wsApi.get('allGameRoleList', { user_id: 1 }, (res) => {
           if (res['data']['code'] === 200) {
-            self.tableData = res['data']['data'];
+            self.tabListPops = res['data']['data']['data'];
+            console.log(self.tabListPops);
           }
         });
       },
@@ -128,7 +158,7 @@
         let self = this;
         this.$wsApi.get('difFavDegree', param, (res) => {
           if (res['data']['code'] === 200) {
-            self.tableData = res['data']['data'];
+            self.tabListPops = res['data']['data']['data'];
           }
         });
       },
@@ -155,39 +185,22 @@
   .el-footer {
     background-color: #B3C0D1;
     color: #333;
-    text-align: left;
+    text-align: center;
     line-height: 60px;
   }
   
   .el-aside {
     background-color: #D3DCE6;
     color: #333;
-    text-align: left;
-    line-height: 39px;
-    font-size: 16px;
-    overflow: hidden;
-  }
-  
-  .el-aside ul li {
-    width: 100%;
-    height: 39px;
-    cursor: pointer;
-    padding-left: 20px;
-    border-bottom: 1px solid dodgerblue;
-  }
-  
-  .el-aside ul li:hover {
-    color: dodgerblue;
+    text-align: center;
+    line-height: 200px;
   }
   
   .el-main {
     background-color: #E9EEF3;
     color: #333;
     text-align: center;
-    /*line-height: 160px;*/
-    height: 450px;
-    overflow: hidden;
-    overflow-y: scroll;
+    line-height: 160px;
   }
   
   body>.el-container {
