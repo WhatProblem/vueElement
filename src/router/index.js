@@ -74,9 +74,9 @@ const routeConfig = [
     },
     component: main,
     children: [
-      { path: 'heroCreate', name: 'heroCreate', meta: { title: '英雄创建', icon: 'el-icon-ws-xinjiantianjiabiaodanyemian' }, component: () => import('@/views/form/heroCreate/heroCreate.vue')},
-      { path: 'heroList', name: 'heroList', meta: { title: '英雄列表', icon: 'el-icon-ws-biaodan1' }, component: () =>import('@/views/form/heroList/heroList.vue')},
-      { path: 'heroSort', name: 'heroSort', meta: { title: '英雄分类', icon: 'el-icon-ws-biaodan1' }, component: () =>import('@/views/form/heroSort/heroSort.vue')}
+      { path: 'heroCreate', name: 'heroCreate', meta: { title: '英雄创建', icon: 'el-icon-ws-xinjiantianjiabiaodanyemian' }, component: () => import('@/views/game/heroCreate/heroCreate.vue')},
+      { path: 'heroList', name: 'heroList', meta: { title: '英雄列表', icon: 'el-icon-ws-biaodan1' }, component: () =>import('@/views/game/heroList/heroList.vue')},
+      { path: 'heroSort', name: 'heroSort', meta: { title: '英雄分类', icon: 'el-icon-ws-biaodan1' }, component: () =>import('@/views/game/heroSort/heroSort.vue')}
     ]
   },
   {
