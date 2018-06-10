@@ -4,7 +4,7 @@
       <el-header style="height: 43px;">
         <el-row>
           <div>
-            <el-input placeholder="请输入内容" v-model="searchKey" class="input-with-select" @keyup.enter.native="searchList()">
+            <el-input ref="autoInputFocus" autofocus placeholder="请输入内容" v-model="searchKey" class="input-with-select" @keyup.enter.native="searchList()">
               <el-button slot="append" icon="el-icon-search" @click="searchList()"></el-button>
             </el-input>
           </div>
@@ -56,22 +56,27 @@
       }
     },
     mounted() {
+      this.getFocus();
       this.curClick = '0';
       let param = {
-        user_id: '1',
+        user_id: '0001',
         pages_total: '10', // 每页总数
         pages_index: '1', // 当前页下标
       };
       this.getData(param);
     },
     methods: {
+      // 自动聚焦
+      getFocus() {
+        this.$refs.autoInputFocus.$el.querySelector('input').focus();
+      },
       // 选中tabs触发
       handleTabs(tab, event) {
         this.searchFlag = false;
         this.curClick = tab.index;
         if (this.curClick === '0') {
           let param = {
-            user_id: '1',
+            user_id: '0001',
             pages_total: '10', // 每页总数
             pages_index: '1', // 当前页下标
           };
@@ -79,7 +84,7 @@
         } else {
           let param = {
             game_fav: this.curClick - 1,
-            user_id: '1',
+            user_id: '0001',
             pages_total: '10', // 每页总数
             pages_index: '1', // 当前页下标
           };
@@ -117,7 +122,7 @@
       curPage(val) {
         if (this.searchFlag) {
           let param = {
-            user_id: 1,
+            user_id: '0001',
             game_role: this.searchKey,
             pages_total: '10', // 每页总数
             pages_index: val, // 当前页下标
@@ -126,7 +131,7 @@
         } else {
           if (this.curClick === '0') {
             let param = {
-              user_id: '1',
+              user_id: '0001',
               pages_total: '10', // 每页总数
               pages_index: val, // 当前页下标
             };
@@ -134,7 +139,7 @@
           } else {
             let param = {
               game_fav: this.curClick - 1,
-              user_id: '1',
+              user_id: '0001',
               pages_total: '10', // 每页总数
               pages_index: val, // 当前页下标
             };
@@ -148,7 +153,7 @@
         this.searchFlag = true; // 搜索
         this.$refs.tabLists[0].loading = true;
         let param = {
-          user_id: 1,
+          user_id: '0001',
           game_role: this.searchKey,
           pages_total: '10', // 每页总数
           pages_index: '1', // 当前页下标

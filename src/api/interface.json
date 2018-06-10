@@ -16,7 +16,7 @@
   },
   "updateGameRole": {
     "wsUrl": "game/updateGameRole",
-    "param": "game_role, game_power, game_total, game_fav, game_id, user_id",
+    "param": "game_role, game_power, game_total, game_fav, game_desc, game_user, game_id, user_id",
     "content":"游戏模块 修改一条英雄数据"
   },
   "deleteGameRole": {
