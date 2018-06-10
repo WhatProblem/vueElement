@@ -1,6 +1,13 @@
 <template>
   <div class="tabList">
-    <el-table :data="tabListPops" style="width: 100%" height="400" size="mini">
+    <el-table 
+      :data="tableDatas" 
+      style="width: 100%" 
+      size="mini"
+      v-loading="loading"
+      element-loading-text="拼命加载中"
+      element-loading-spinner="el-icon-loading"
+      element-loading-background="rgba(0, 0, 0, 0.8)">
       <el-table-column type="index" label="序号" width="60" align="center">
       </el-table-column>
       <el-table-column label="英雄名称" width="140" align="left">
@@ -36,21 +43,30 @@
 </template>
 <script>
   export default {
-    name: 'tabList',
+    name: 'tableList',
     props: {
       tabListPops: {
-        default: Array
+        type: Array
       }
     },
     data() {
-
+      return {
+        tableDatas: [], // 表格数据
+        loading: true, // 加载圈
+      }
+    },
+    mounted() {
+    
     },
     watch: {
       tabListPops(val) {
-        console.log(val);
+        if (val && val.length !== 0) {
+          this.tableDatas = val;
+        }
       }
     }
   }
+
 </script>
 <style lang="scss" scoped>
 
