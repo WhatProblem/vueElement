@@ -1,10 +1,13 @@
 <template>
   <div class="heroList">
     <el-container>
-      <el-header>
+      <el-header style="height: 43px;">
         <el-row>
-          <el-button @click="getData" type="primary">获取所有数据</el-button>
-          <el-button type="primary" @click="getKindHeroList">添加英雄数据</el-button>
+          <div>
+            <el-input placeholder="请输入内容" v-model="searchKey" class="input-with-select" @keyup.enter.native="searchList()">
+              <el-button slot="append" icon="el-icon-search" @click="searchList()"></el-button>
+            </el-input>
+          </div>
         </el-row>
       </el-header>
       <el-main>
@@ -18,12 +21,8 @@
             <div class="totals"><span>总：</span><span>{{totalList}}</span></div>
           </el-col>
           <el-col :span="8" :offset="14">
-            <el-pagination 
-            :page-size="10" 
-            :pager-count="5" 
-            @current-change="curPage"
-            layout="prev, pager, next" 
-            :total="totalList">
+            <el-pagination :page-size="10" :pager-count="5" @current-change="curPage" :current-page.sync="currentPageNum" layout="prev, pager, next"
+              :total="totalList">
             </el-pagination>
           </el-col>
         </el-row>
@@ -51,37 +50,42 @@
         tabListPops: [], // 表格数据
         tableData: [], // 删除数据操作
         totalList: null, // 数据总数
+        currentPageNum: 1, // 当前页
+        searchKey: '', // 搜索关键字
+        searchFlag: false, // 搜索标志，true：搜索过
       }
     },
     mounted() {
-      this.curClick = 0;
+      this.curClick = '0';
       let param = {
         user_id: '1',
-        pagesTotal: '10', // 每页总数
-        pagesIndex: '1', // 当前页下标
+        pages_total: '10', // 每页总数
+        pages_index: '1', // 当前页下标
       };
       this.getData(param);
     },
     methods: {
       // 选中tabs触发
       handleTabs(tab, event) {
+        this.searchFlag = false;
         this.curClick = tab.index;
         if (this.curClick === '0') {
           let param = {
             user_id: '1',
-            pagesTotal: '10', // 每页总数
-            pagesIndex: '1', // 当前页下标
+            pages_total: '10', // 每页总数
+            pages_index: '1', // 当前页下标
           };
           this.getData(param);
         } else {
           let param = {
             game_fav: this.curClick - 1,
             user_id: '1',
-            pagesTotal: '10', // 每页总数
-            pagesIndex: '1', // 当前页下标
+            pages_total: '10', // 每页总数
+            pages_index: '1', // 当前页下标
           };
           this.getKindHeroList(param);
         }
+        this.currentPageNum = 1;
       },
       getKindHeroList(param) {
         let self = this;
@@ -107,79 +111,60 @@
           }
         });
       },
-      handleEdit(index, row) {
-        console.log(index, row);
-      },
-      // 删除单条数据接口
-      deleteHero(param) {
-        let self = this;
-        this.$wsApi.get('deleteGameRole', param, (res) => {
-          if (res['data']['code'] === 200) {
-            console.log(res);
-            return true;
-          } else {
-            return false;
-          }
-        })
-      },
-      handleDelete(index, row) {
-        console.log(index, row);
-        let param = {
-          game_id: row.game_id,
-          user_id: row.user_id
-        };
-        let self = this;
-        new Promise((resolve, reject) => {
-          self.deleteHero(param);
-          resolve();
-        }).then(() => {
-          self.tableData.splice(index, 1);
-        })
-      },
-      // 获取不同喜欢等级的数据
-      getDiffFav(param) {
-        let self = this;
-        this.$wsApi.get('difFavDegree', param, (res) => {
-          if (res['data']['code'] === 200) {
-            self.tabListPops = res['data']['data']['data'];
-          }
-        });
-      },
-      // 不同喜欢程度的数据
-      getKindFav(item, index) {
-        let userId = 1;
-        if (index > 0) {
-          let gameFav = index - 1;
-          let param = {
-            user_id: userId,
-            game_fav: gameFav
-          };
-          this.getDiffFav(param);
-        } else {
-          this.getData();
-        }
-      },
       /**
        * @description: 分页操作
        */
       curPage(val) {
-        console.log(val);
-        if (this.curClick === '0') {
+        if (this.searchFlag) {
           let param = {
-            user_id: '1',
-            pagesTotal: '10', // 每页总数
-            pagesIndex: val, // 当前页下标
+            user_id: 1,
+            game_role: this.searchKey,
+            pages_total: '10', // 每页总数
+            pages_index: val, // 当前页下标
           };
-          this.getData(param);
+          this.getSearchData(param);
         } else {
-          let param = {
-            game_fav: this.curClick - 1,
-            user_id: '1',
-            pagesTotal: '10', // 每页总数
-            pagesIndex: val, // 当前页下标
-          };
-          this.getKindHeroList(param);
+          if (this.curClick === '0') {
+            let param = {
+              user_id: '1',
+              pages_total: '10', // 每页总数
+              pages_index: val, // 当前页下标
+            };
+            this.getData(param);
+          } else {
+            let param = {
+              game_fav: this.curClick - 1,
+              user_id: '1',
+              pages_total: '10', // 每页总数
+              pages_index: val, // 当前页下标
+            };
+            this.getKindHeroList(param);
+          }
+          this.$refs.tabLists[0].page = val;
         }
+      },
+      // 搜索模块
+      searchList() {
+        this.searchFlag = true; // 搜索
+        this.$refs.tabLists[0].loading = true;
+        let param = {
+          user_id: 1,
+          game_role: this.searchKey,
+          pages_total: '10', // 每页总数
+          pages_index: '1', // 当前页下标
+        };
+        this.getSearchData(param);
+      },
+      // 搜索模块接口
+      getSearchData(param) {
+        let self = this;
+        this.$wsApi.post('searchGameRole', param, (res) => {
+          if (res['data']['code'] === 200) {
+            self.totalList = res['data']['data']['totals'];
+            self.tabListPops = res['data']['data']['data'];
+            self.$refs.tabLists[0].loading = false;
+          }
+        })
       }
     }
   }
@@ -187,10 +172,12 @@
 </script>
 <style lang="scss" scoped>
   .el-header {
-    background-color: #B3C0D1;
+    background-color: #fff;
     color: #333;
     text-align: center;
     line-height: 45px;
+    padding-left: 0px;
+    padding-right: 0px;
   }
   
   .el-aside {
@@ -204,6 +191,7 @@
     background-color: #fff;
     color: #333;
     text-align: center;
+    padding-top: 0px;
     padding-left: 0px;
     padding-right: 0px;
     /*line-height: 160px;*/
