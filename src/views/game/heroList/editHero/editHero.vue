@@ -1,21 +1,15 @@
 <template>
-  <div class="createForm">
-    <div class="formHero">
+  <div class="editHero">
+    <el-dialog title="修改英雄信息" :visible.sync="dialogFormVisible" :center="false" width="60%">
       <el-row>
-        <el-col :span="16">
-          <el-alert title="添加英雄:" type="success" :closable="false" show-icon>
-          </el-alert>
-        </el-col>
-      </el-row>
-      <el-row>
-        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm" size="medium">
+        <el-form :model="ruleForm" :rules="rules" ref="ruleForm" label-width="90px" class="demo-ruleForm" size="medium">
           <el-row>
-            <el-col :span="8">
+            <el-col :span="12">
               <el-form-item label="角色名称" prop="gameRole">
                 <el-input v-model="ruleForm.gameRole"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="12">
               <el-form-item label="喜欢等级" prop="gameFav">
                 <el-select v-model="ruleForm.gameFav" placeholder="请选择等级">
                   <el-option label="0" value="0"></el-option>
@@ -27,55 +21,57 @@
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="8">
+            <el-col :span="12">
               <el-form-item label="战斗力" prop="gamePower">
                 <el-input v-model="ruleForm.gamePower"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="12">
               <el-form-item label="使用场次" prop="gameTotal">
                 <el-input v-model="ruleForm.gameTotal"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="16">
+            <el-col :span="24">
               <el-form-item label="英雄描述" prop="gameDesc">
                 <el-input type="textarea" :rows="2" maxlength="200" v-model="ruleForm.gameDesc"></el-input>
               </el-form-item>
             </el-col>
           </el-row>
           <el-row>
-            <el-col :span="8">
+            <el-col :span="12">
               <el-form-item label="账户名称" prop="gameUser">
-                <el-input v-model="ruleForm.gameUser"></el-input>
+                <el-input disabled v-model="ruleForm.gameUser"></el-input>
               </el-form-item>
             </el-col>
-            <el-col :span="8">
+            <el-col :span="12">
               <el-form-item label="账户ID" prop="userId">
-                <el-input v-model="ruleForm.userId"></el-input>
+                <el-input disabled v-model="ruleForm.userId"></el-input>
               </el-form-item>
             </el-col>
-          </el-row>
-          <el-row>
-            <el-form-item>
-              <el-col :span="11">
-                <el-button type="primary" @click="submitForm('ruleForm')">提交</el-button>
-                <el-button @click="resetForm('ruleForm')">重置</el-button>
-              </el-col>
-            </el-form-item>
           </el-row>
         </el-form>
       </el-row>
-    </div>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="cancel">取 消</el-button>
+        <el-button type="primary" @click="confirmSubmit">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 <script>
   export default {
-    name: 'createForm',
+    name: 'editHero',
+    props: {
+      editProps: {
+        type: Object
+      }
+    },
     data() {
       return {
-        input5: '',
+        dialogFormVisible: false,
+        gameId: '', // 英雄人物id
         ruleForm: {
           gameRole: '',
           gameFav: '',
@@ -112,73 +108,62 @@
         }
       }
     },
-    mounted() {
-
-    },
     methods: {
-      /**
-       * @description: 自动聚焦
-      */
-      getFocus() {
-        this.$refs.autoInputFocus.$el.querySelector('input').focus();
-      },
-      submitForm(formName) {
+      // 调取修改接口
+      updateHeroList(param) {
         let self = this;
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            let param = {
-              game_role: self.ruleForm.gameRole,
-              game_fav: self.ruleForm.gameFav,
-              game_total: self.ruleForm.gameTotal,
-              game_power: self.ruleForm.gamePower,
-              game_desc: self.ruleForm.gameDesc,
-              game_user: self.ruleForm.gameUser,
-              user_id: self.ruleForm.userId,
-            };
-            self.$wsApi.post('addGameRole', param, (res) => {
-              if (res['data']['code'] === 200) {
-                self.$message({
-                  type: 'success',
-                  message: '添加英雄成功!'
-                });
-                self.resetForm(formName)
-              } else {
-                self.$message({
-                  type: 'success',
-                  message: '添加英雄失败!'
-                });
-              }
-            })
-          } else {
-            console.log('error submit!!');
-            return false;
+        this.$wsApi.post('updateGameRole', param, (res) => {
+          if (res['data']['code'] === 200) {
+            self.$message({
+              type: 'success',
+              message: '英雄新修改成功!'
+            });
+            self.dialogFormVisible = false;
+            let backEditObj = param;
+            self.$emit('backEditObj', backEditObj);
           }
-        });
+        })
       },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+      // 取消编辑
+      cancel() {
+        this.dialogFormVisible = false;
+      },
+      // 确认修改
+      confirmSubmit() {
+        let param = {
+          game_role: this.ruleForm.gameRole,
+          game_fav: this.ruleForm.gameFav,
+          game_total: this.ruleForm.gameTotal,
+          game_power: this.ruleForm.gamePower,
+          game_desc: this.ruleForm.gameDesc,
+          game_id: this.gameId,
+          user_id: this.ruleForm.userId,
+        };
+        this.updateHeroList(param);
+      },
+      fillForm(val) {
+        console.log(val);
+        this.ruleForm.gameRole = val.game_role;
+        this.ruleForm.gameFav = val.game_fav;
+        this.ruleForm.gamePower = val.game_power;
+        this.ruleForm.gameTotal = val.game_total;
+        this.ruleForm.gameUser = val.game_user;
+        this.ruleForm.userId = val.user_id;
+        this.ruleForm.gameDesc = val.game_desc;
       }
     },
-    computed: {
-
+    watch: {
+      editProps(val) {
+        console.log(val);
+        this.fillForm(val);
+        this.gameId = val.game_id;
+      }
     }
   }
 
 </script>
 <style lang="scss" scoped>
-  .createForm {
-    margin-top: 40px;
-  }
-  
   .el-select {
     width: 100%;
-  }
-  
-  .addTitle {
-    margin-top: -50px;
-    height: 45px;
-    line-height: 45px;
-    color: #666;
-    padding-left: 30px;
   }
 </style>
