@@ -33,5 +33,10 @@
     "wsUrl": "game/getDataAndTotals",
     "param": "game_fav, user_id, pagesTotal, pagesIndex",
     "content": "游戏模块 分页查询"
+  },
+  "searchGameRole": {
+    "wsUrl": "game/searchGameRole",
+    "param": "ser_id, game_role, pagesTotal, pagesIndex",
+    "content": "游戏模块 模糊查询"
   }
 }
