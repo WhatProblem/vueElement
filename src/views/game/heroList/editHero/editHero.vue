@@ -147,7 +147,7 @@
         this.ruleForm.gameFav = val.game_fav;
         this.ruleForm.gamePower = val.game_power;
         this.ruleForm.gameTotal = val.game_total;
-        this.ruleForm.gameUser = val.game_user;
+        this.ruleForm.gameUser = val.userName;
         this.ruleForm.userId = val.user_id;
         this.ruleForm.gameDesc = val.game_desc;
       }

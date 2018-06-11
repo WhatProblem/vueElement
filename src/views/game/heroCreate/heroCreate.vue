@@ -132,7 +132,7 @@
               game_total: self.ruleForm.gameTotal,
               game_power: self.ruleForm.gamePower,
               game_desc: self.ruleForm.gameDesc,
-              game_user: self.ruleForm.gameUser,
+              user_name: self.ruleForm.userName,
               user_id: self.ruleForm.userId,
             };
             self.$wsApi.post('addGameRole', param, (res) => {
