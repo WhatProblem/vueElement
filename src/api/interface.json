@@ -38,5 +38,10 @@
     "wsUrl": "game/searchGameRole",
     "param": "ser_id, game_role, pagesTotal, pagesIndex",
     "content": "游戏模块 模糊查询"
+  },
+  "addFlim": {
+    "wsUrl": "film/addFilm",
+    "param": "film_name,film_director,film_area,film_time,film_type,film_score,film_major,film_desc,user_name, user_id",
+    "content": "视频模块 新增视频"
   }
 }
