@@ -80,17 +80,17 @@ const routeConfig = [
     ]
   },
   {
-    path: '/excel',
-    name: 'excel',
+    path: '/film',
+    name: 'film',
     meta: {
-      title: 'Excel表格',
+      title: '影视剧',
       icon: 'el-icon-ws-Excel'
     },
     component: main,
     children: [
-      { path: 'exportExcel', name: 'exportExcel', meta: { title: '表格导出', icon: 'el-icon-ws-exceldaochu' }, component: () => import('@/views/excel/exportExcel/exportExcel.vue')},
-      { path: 'exportSelected', name: 'exportSelected', meta: { title: '表格导出选择', icon: 'el-icon-ws-exceldaochu1' }, component: () =>import('@/views/excel/exportSelected/exportSelected.vue')},
-      { path: 'uploadExcel', name: 'uploadExcel', meta: { title: '表格上传', icon: 'el-icon-ws-wendangshangchuan' }, component: () =>import('@/views/excel/uploadExcel/uploadExcel.vue')}
+      { path: 'filmCreate', name: 'filmCreate', meta: { title: '视频添加', icon: 'el-icon-ws-exceldaochu' }, component: () => import('@/views/film/filmCreate/filmCreate.vue')},
+      { path: 'filmEdit', name: 'filmEdit', meta: { title: '视频修改', icon: 'el-icon-ws-exceldaochu1' }, component: () =>import('@/views/film/filmEdit/filmEdit.vue')},
+      { path: 'filmCaculate', name: 'filmCaculate', meta: { title: '视频统计', icon: 'el-icon-ws-wendangshangchuan' }, component: () =>import('@/views/film/filmCaculate/filmCaculate.vue')}
     ]
   },
   {
