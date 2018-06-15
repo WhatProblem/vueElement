@@ -28,8 +28,15 @@
       <el-col :span="8">
         <el-form-item label="视频类型" prop="filmType">
           <el-select v-model="ruleForm.filmType" placeholder="请选择视频类型">
-            <el-option label="区域一" value="shanghai"></el-option>
-            <el-option label="区域二" value="beijing"></el-option>
+            <el-option label="科幻" value="0"></el-option>
+            <el-option label="战争" value="1"></el-option>
+            <el-option label="爱情" value="2"></el-option>
+            <el-option label="古装" value="3"></el-option>
+            <el-option label="动作" value="4"></el-option>
+            <el-option label="玄幻" value="5"></el-option>
+            <el-option label="喜剧" value="6"></el-option>
+            <el-option label="动漫" value="7"></el-option>
+            <el-option label="娱乐" value="8"></el-option>
           </el-select>
         </el-form-item>
       </el-col>
@@ -91,7 +98,7 @@
         rules: {
           filmName: [
             { required: true, message: '请输入影片名称', trigger: 'blur' },
-            { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
+            { min: 1, max: 50, message: '长度在 1 到 50 个字符', trigger: 'blur' }
           ],
           filmDirector: [
             { required: true, message: '请输入影片导演', trigger: 'blur' },
