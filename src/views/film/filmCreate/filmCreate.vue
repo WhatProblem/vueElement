@@ -73,8 +73,8 @@
       </el-col>
     </el-row>
     <el-form-item>
-      <el-button type="primary" @click="submitForm('ruleForm')">立即创建</el-button>
-      <el-button @click="resetForm('ruleForm')">重置</el-button>
+      <el-button type="primary" @click="submitForm()">提交</el-button>
+      <el-button @click="resetForm()">重置</el-button>
     </el-form-item>
   </el-form>
 </template>
@@ -133,15 +133,19 @@
     methods: {
       // 新增视频接口
       addFilm(param) {
-        this.$wsApi.post('addFlim', param, (res) => {
-          if (res) {
-            console.log(res)
+        let self = this;
+        this.$wsApi.post('addOrEditOrDeleteFilm', param, (res) => {
+          if (res['data']['code'] === 200) {
+            self.resetForm();
+            self.$message({
+              type: 'success',
+              message: '影片创建成功'
+            });
           }
         });
       },
-      submitForm(formName) {
-        console.log(this.ruleForm);
-        this.$refs[formName].validate((valid) => {
+      submitForm() {
+        this.$refs.ruleForm.validate((valid) => {
           if (valid) {
             let param = {
               film_name: this.ruleForm.filmName,
@@ -162,8 +166,8 @@
           }
         });
       },
-      resetForm(formName) {
-        this.$refs[formName].resetFields();
+      resetForm() {
+        this.$refs.ruleForm.resetFields();
       }
     }
   }

@@ -39,9 +39,14 @@
     "param": "ser_id, game_role, pagesTotal, pagesIndex",
     "content": "游戏模块 模糊查询"
   },
-  "addFlim": {
-    "wsUrl": "film/addFilm",
+  "addOrEditOrDeleteFilm": {
+    "wsUrl": "film/addOrEditFilm",
     "param": "film_name,film_director,film_area,film_time,film_type,film_score,film_major,film_desc,user_name, user_id",
-    "content": "视频模块 新增视频"
+    "content": "视频模块 新增,修改,删除视频"
+  },
+  "selectTypeFilm": {
+    "wsUrl": "film/selectTypeFilm",
+    "param": "film_type, film_type_value, pages_total, pages_index",
+    "content": "视频模块 查询视频数量"
   }
 }
