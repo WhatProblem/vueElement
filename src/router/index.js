@@ -83,7 +83,7 @@ const routeConfig = [
     path: '/film',
     name: 'film',
     meta: {
-      title: '影视剧',
+      title: '视频',
       icon: 'el-icon-ws-Excel'
     },
     component: main,
