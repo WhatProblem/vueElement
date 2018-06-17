@@ -48,5 +48,10 @@
     "wsUrl": "film/selectTypeFilm",
     "param": "film_type, film_type_value, pages_total, pages_index",
     "content": "视频模块 查询视频数量"
+  },
+  "searchFilm": {
+    "wsUrl": "film/searchFilm",
+    "param": "film_type, film_value, pages_total, pages_index",
+    "content": "视频模块 基于类型根据影片名称,描述,区域,年代"
   }
 }
