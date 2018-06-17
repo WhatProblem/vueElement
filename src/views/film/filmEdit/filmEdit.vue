@@ -16,8 +16,8 @@
         </el-tabs>
       </el-col>
       <el-col :span="10">
-        <el-input placeholder="请输入内容" v-model="searchKey" class="input-with-select">
-          <el-button slot="append" icon="el-icon-search"></el-button>
+        <el-input placeholder="请输入内容" v-model="searchKey" @keyup.enter.native="searchFilm" class="input-with-select">
+          <el-button slot="append" icon="el-icon-search" @click="searchFilm"></el-button>
         </el-input>
       </el-col>
     </el-row>
@@ -122,6 +122,7 @@
         editFilmProps: {}, // 编辑内容的属性值
         page: 1, // 序号递增
         loading: true, // 控制加载圈
+        searchFlag: true, // false: 搜索
       };
     },
     mounted() {
@@ -152,6 +153,7 @@
           }
         });
       },
+
       /**
        * @description: 调取查询接口删除数据
        * @param {film_id} 视频id
@@ -170,17 +172,60 @@
           }
         });
       },
+
+      /**
+       * @description: 模糊查询影片名称，描述，区域，年代
+       * @param {film_name} 影片名称
+       * @param {film_desc} 影片描述
+       * @param {film_area} 影片区域
+       * @param {film_time} 影片年代
+       * @function {film_value} 输入关键词
+       * @function {pages_total} 每页总数
+       * @function {pages_index} 当前页
+       * @function {film_type} 类型值
+       */
+      getSearchFilm(param) {
+        let self = this;
+        this.$wsApi.get('searchFilm', param, (res) => {
+          if (res['data']['code'] === 200) {
+            self.filmData = res['data']['data']['data'];
+            self.filmTotals = res['data']['data']['totals'];
+          }
+        })
+      },
+
+      //  搜索功能
+      searchFilm() {
+        this.searchFlag = false; // 搜索
+        let param = {
+          film_value: this.searchKey,
+          pages_total: '5', // 每页展示数量
+          pages_index: '1', // 当前页
+          film_type: this.filmTypeValue, // 类型值
+        }
+        this.getSearchFilm(param);
+      },
       /**
        * @description: 分页
       */
       curPage(val) {
-        let param = {
-          film_type: 'film_type',
-          film_type_value: this.filmTypeValue,
-          pages_total: '5',
-          pages_index: val,
+        if (this.searchFlag) { // 正常分类分页
+          let param = {
+            film_type: 'film_type',
+            film_type_value: this.filmTypeValue,
+            pages_total: '5',
+            pages_index: val,
+          }
+          this.getAllKindFilm(param);
+        } else { // 搜索部分分页
+          let param = {
+            film_value: this.searchKey,
+            pages_total: '5', // 每页展示数量
+            pages_index: val, // 当前页
+            film_type: this.filmTypeValue, // 类型值
+          }
+          this.getSearchFilm(param);
         }
-        this.getAllKindFilm(param);
         this.page = val;
       },
       // 控制序号
@@ -191,6 +236,7 @@
        * @description: 点击当前影片类型
       */
       handleClick(tab, event) {
+        this.searchFlag = true; // 按类型查标志
         this.filmTypeValue = tab.name;
         let param = {
           film_type: 'film_type',
