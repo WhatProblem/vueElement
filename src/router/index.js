@@ -54,15 +54,17 @@ const routeConfig = [
     ]
   },
   {
-    path: '/zip',
-    // name: 'zip',
+    path: '/music',
+    name: 'music',
     meta: {
-      title: '压缩文件',
+      title: '音乐',
       icon: 'el-icon-ws-geshi_yasuobaozip'
     },
     component: main,
     children: [
-      { path: 'zip_index', name: 'zip_index', meta: { title: '压缩文件', icon: 'el-icon-download' }, component: () => import('@/views/zip/zip.vue')}
+      { path: 'musicCreate', name: 'musicCreate', meta: { title: '创建音乐', icon: 'el-icon-download' }, component: () => import('@/views/music/musicCreate/musicCreate.vue')},
+      { path: 'musicList', name: 'musicList', meta: { title: '音乐列表', icon: 'el-icon-download' }, component: () => import('@/views/music/musicList/musicList.vue')},
+      { path: 'musicAnalyse', name: 'musicAnalyse', meta: { title: '音乐分析', icon: 'el-icon-download' }, component: () => import('@/views/music/musicAnalyse/musicAnalyse.vue')}
     ]
   },
   {

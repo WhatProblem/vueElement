@@ -17,7 +17,7 @@
   "updateGameRole": {
     "wsUrl": "game/updateGameRole",
     "param": "game_role, game_power, game_total, game_fav, game_desc, user_name, game_id, user_id",
-    "content":"游戏模块 修改一条英雄数据"
+    "content": "游戏模块 修改一条英雄数据"
   },
   "deleteGameRole": {
     "wsUrl": "game/deleteGameRole",
@@ -40,7 +40,7 @@
     "content": "游戏模块 模糊查询"
   },
   "addOrEditOrDeleteFilm": {
-    "wsUrl": "film/addOrEditFilm",
+    "wsUrl": "film/addOrEditOrDeleteFilm",
     "param": "film_name,film_director,film_area,film_time,film_type,film_score,film_major,film_desc,user_name, user_id",
     "content": "视频模块 新增,修改,删除视频"
   },
@@ -52,6 +52,21 @@
   "searchFilm": {
     "wsUrl": "film/searchFilm",
     "param": "film_type, film_value, pages_total, pages_index",
+    "content": "视频模块 基于类型根据影片名称,描述,区域,年代"
+  },
+  "addOrEditOrDelMusic": {
+    "wsUrl": "music/addOrEditOrDelMusic",
+    "param": "film_name,film_director,film_area,film_time,film_type,film_score,film_major,film_desc,user_name, user_id",
+    "content": "视频模块 新增,修改,删除视频"
+  },
+  "selectTypeMusic": {
+    "wsUrl": "music/selectTypeMusic",
+    "param": "music_type, music_type_value, pages_total, pages_index",
+    "content": "视频模块 查询视频数量"
+  },
+  "searchMusic": {
+    "wsUrl": "music/searchMusic",
+    "param": "music_type, music_value, pages_total, pages_index",
     "content": "视频模块 基于类型根据影片名称,描述,区域,年代"
   }
 }

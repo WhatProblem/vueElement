@@ -121,10 +121,10 @@
             { required: true, message: '请输入影片评分', trigger: 'blur' },
           ],
           film_time: [
-            { required: true, message: '请输入影片地区', trigger: 'blur' },
-          ],
-          filmTime: [
             { required: true, message: '请输入影片年代', trigger: 'blur' },
+          ],
+          film_area: [
+            { required: true, message: '请输入影片地区', trigger: 'blur' },
           ],
           film_type: [
             { required: true, message: '请输入影片类型', trigger: 'blur' },
