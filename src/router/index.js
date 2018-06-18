@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import Cookies from 'js-cookie'
+import { session } from '../utils/session';
 
 import main from '@/views/main.vue'
 import charts from '@/views/components/charts/charts.vue'
@@ -145,11 +146,11 @@ export { routeConfig }
 
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  if (Cookies.get('user') && Cookies.get('password') && to.name === 'login') {
+  if (session.get('username') && session.get('password') && to.name === 'login') {
     next({
       name: 'home'
     });
-  } else if ((!Cookies.get('user') || !Cookies.get('password')) && to.name !== 'login') {
+  } else if ((!session.get('username') || !session.get('password')) && to.name !== 'login') {
     next({
       name: 'login'
     });

@@ -133,7 +133,7 @@ export default {
      */
     logOut() {
       let personInfo = {
-        usrename: 'user',
+        usrename: 'usrename',
         password: 'password'
       };
       this.$store.dispatch('logOut', personInfo).then(() => {

@@ -20,7 +20,7 @@ export const session = {
     return json[key];
   },
   put: function (key, value, isPersistence = false) {
-    if (value === null || value === undefined || isNaN(value)) {
+    if (value === null || value === undefined) {
       this.remove(key);
       return;
     }
