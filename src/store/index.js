@@ -2,7 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Cookies from 'js-cookie'
 import { routeConfig } from '../router'
-import { cleanUserInfo } from '../utils/authenticate'
+import { session } from '../utils/session'
+// import { cleanUserInfo } from '../utils/authenticate'
 
 Vue.use(Vuex)
 
@@ -49,7 +50,8 @@ const store = new Vuex.Store({
       }
     },
     logOutRefresh(state, personInfo) {
-      cleanUserInfo(personInfo);
+      // cleanUserInfo(personInfo);
+      session.clear(true);
     }
   },
   actions: {

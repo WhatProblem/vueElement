@@ -17,8 +17,9 @@
   </div>
 </template>
 <script>
-  import { addUserInfo } from '../utils/authenticate'
-  import Cookies from 'js-cookie'
+  import { addUserInfo } from '../utils/authenticate';
+  import { session } from '../utils/session';
+  import Cookies from 'js-cookie';
   export default {
     data() {
       var validateUsername = (rule, value, callback) => {
@@ -58,12 +59,24 @@
         this.$refs.ruleForm2.validate((valid) => {
           if (valid) {
             let self = this;
-            addUserInfo(this.ruleForm2).then(() => {
+            new Promise((resolve, reject) => {
+              console.log(self.ruleForm2.username);
+              console.log(self.ruleForm2.password);
+              session.put('username', self.ruleForm2.username, true);
+              session.put('password', self.ruleForm2.password, true);
+              resolve();
+            }).then(() => {
               self.$message('登录成功！');
               self.$router.push({
                 path: '/home'
               });
-            })
+            });
+            // addUserInfo(this.ruleForm2).then(() => {
+            //   self.$message('登录成功！');
+            //   self.$router.push({
+            //     path: '/home'
+            //   });
+            // })
           } else {
             console.log('error submit!!');
             return false;
