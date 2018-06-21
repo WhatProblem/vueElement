@@ -8,13 +8,20 @@
     </el-input>
     <el-row>
       <el-col>
-        <el-upload class="avatar-uploader" action="http://localhost:3000/test/uploadImg" :show-file-list="false" :on-success="handleAvatarSuccess"
-          :before-upload="beforeAvatarUpload">
-          <img v-if="imageUrl" :src="imageUrl" class="avatar">
-          <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+        <el-upload 
+          action="http://localhost:3000/film/uploadImg" 
+          list-type="picture-card" 
+          name="imageFile"
+          :on-preview="handlePictureCardPreview"
+          :on-remove="handleRemove">
+          <i class="el-icon-plus"></i>
         </el-upload>
+        <el-dialog :visible.sync="dialogVisible">
+          <img width="100%" :src="dialogImageUrl" alt="">
+        </el-dialog>
       </el-col>
     </el-row>
+    <div><img src="http://localhost:3000/film/loadImg" alt=""></div>
   </div>
 </template>
 <script>
@@ -24,6 +31,8 @@
       return {
         clipboardText: 'https://github.com/WhatProblem/vueElement', // 本人GitHub地址
         imageUrl: '',
+        dialogImageUrl: '',
+        dialogVisible: false
       }
     },
     mounted() {
@@ -34,20 +43,12 @@
         console.log(e)
       },
 
-      handleAvatarSuccess(res, file) {
-        this.imageUrl = URL.createObjectURL(file.raw);
+      handleRemove(file, fileList) {
+        console.log(file, fileList);
       },
-      beforeAvatarUpload(file) {
-        const isJPG = file.type === 'image/jpeg';
-        const isLt2M = file.size / 1024 / 1024 < 2;
-
-        if (!isJPG) {
-          this.$message.error('上传头像图片只能是 JPG 格式!');
-        }
-        if (!isLt2M) {
-          this.$message.error('上传头像图片大小不能超过 2MB!');
-        }
-        return isJPG && isLt2M;
+      handlePictureCardPreview(file) {
+        this.dialogImageUrl = file.url;
+        this.dialogVisible = true;
       }
     }
   }
