@@ -21,7 +21,10 @@
         </el-dialog>
       </el-col>
     </el-row>
-    <div><img src="http://localhost:3000/film/loadImg" alt=""></div>
+    <div><img src="http://localhost:3000/film/loadImg?poster=banner&filmId=1" alt=""></div>
+    <div><img src="http://localhost:3000/film/loadImg?poster=banner&filmId=2" alt=""></div>
+    <div><img src="http://localhost:3000/film/loadImg?poster=detail&filmId=1" alt=""></div>
+    <div><img src="http://localhost:3000/film/loadImg?poster=detail&filmId=2" alt=""></div>
   </div>
 </template>
 <script>
