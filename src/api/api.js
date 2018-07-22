@@ -23,7 +23,7 @@ axios.interceptors.response.use(function (response) {
   return Promise.reject(error);
 });
 
-const root = 'http://localhost:3000';
+const root = 'http://localhost:9000';
 
 // 自定义判断元素类型JS
 function toType(obj) {
